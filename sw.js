@@ -17,16 +17,18 @@ self.addEventListener("activate", e => {
 
 self.addEventListener("fetch", e => {
   const url = e.request.url;
-  // Zafronix API: always network-first, fallback to empty
+  // Zafronix API: network-first, fallback to empty JSON
   if (url.includes("zafronix.com")) {
     e.respondWith(
       fetch(e.request).catch(() =>
-        new Response(JSON.stringify({data:[]}), { headers:{"Content-Type":"application/json"}})
+        new Response(JSON.stringify({ data: [] }), {
+          headers: { "Content-Type": "application/json" }
+        })
       )
     );
     return;
   }
-  // Static files: cache-first
+  // Static assets: cache-first
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
