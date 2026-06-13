@@ -4,917 +4,449 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>2026 世界盃賽程 HKT</title>
-
-<!-- PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="世界盃2026">
 <meta name="theme-color" content="#0F172A">
 <link rel="manifest" href="manifest.json">
-
 <style>
-/* ── Design Tokens ── */
 :root {
-  --bg:        #0F172A;
-  --card:      #1E293B;
-  --surface:   #263045;
-  --text:      #F8FAFC;
-  --muted:     #94A3B8;
-  --border:    #334155;
-  --accent:    #F25E8B;
-  --ko:        #6366F1;
-  --success:   #4ade80;
-  --warning:   #facc15;
-  --error:     #f87171;
-
-  --r:   0.5rem;
-  --r-lg:0.75rem;
-  --s1:  0.25rem; --s2:0.5rem; --s3:0.75rem; --s4:1rem;
-  --s5:  1.25rem; --s6:1.5rem; --s8:2rem; --s12:3rem;
+  --bg:#0F172A; --card:#1E293B; --text:#F8FAFC; --muted:#94A3B8; --border:#334155;
+  --accent:#F25E8B; --success:#4ade80; --warning:#facc15; --error:#f87171;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html {
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-  -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:none;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  line-height:1.5;min-height:100dvh;
+  padding:max(1.5rem,env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(1.5rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));
 }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.5;
-  min-height: 100dvh;
-  /* Safe area for notched phones */
-  padding: max(var(--s6), env(safe-area-inset-top))
-           max(var(--s4), env(safe-area-inset-right))
-           max(var(--s6), env(safe-area-inset-bottom))
-           max(var(--s4), env(safe-area-inset-left));
+.top-bar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,23,42,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  margin:-1.5rem -1rem 1.5rem -1rem;
+  padding:0.75rem 1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;
 }
-
-/* ── Sticky Top Bar ── */
-.top-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(15,23,42,0.90);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  margin: calc(-1 * max(var(--s6), env(safe-area-inset-top)))
-          calc(-1 * max(var(--s4), env(safe-area-inset-right)))
-          var(--s6)
-          calc(-1 * max(var(--s4), env(safe-area-inset-left)));
-  padding: var(--s3) var(--s4);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3);
-}
-
-.top-bar-title { font-size: 0.95rem; font-weight: 800; letter-spacing: 0.5px; }
-
-.sync-badge {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  font-size: 0.72rem;
-  color: var(--muted);
-  font-family: monospace;
-  white-space: nowrap;
-}
-
-.sync-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--border);
-  transition: background 0.4s;
-  flex-shrink: 0;
-}
-.sync-dot.live    { background: var(--success); animation: pulse 2s infinite; }
-.sync-dot.syncing { background: var(--warning); }
-.sync-dot.error   { background: var(--error); }
-
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-/* ── Page Header ── */
-h1 {
-  text-align: center;
-  font-size: clamp(1.3rem, 4vw, 1.9rem);
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--s2);
-}
-.subtitle {
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.82rem;
-  margin-bottom: var(--s6);
-}
-
-/* ── API Control Panel ── */
-.api-panel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: var(--s4);
-  margin-bottom: var(--s6);
-}
-
-.api-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3);
-  flex-wrap: wrap;
-  margin-bottom: var(--s3);
-}
-
-.api-panel-title { font-size: 0.85rem; font-weight: 700; color: var(--text); }
-
-.mode-tabs {
-  display: flex;
-  gap: var(--s2);
-  flex-wrap: wrap;
-}
-.mode-tab {
-  padding: var(--s2) var(--s3);
-  border-radius: var(--r);
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  transition: all 0.2s;
-  min-height: 36px;
-  min-width: 80px;
-  text-align: center;
-}
-.mode-tab:hover { border-color: var(--muted); color: var(--text); }
-.mode-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-/* Status line inside panel */
-.api-status-line {
-  font-size: 0.78rem;
-  color: var(--muted);
-  background: rgba(15,23,42,0.5);
-  border-radius: var(--r);
-  padding: var(--s2) var(--s3);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--s2);
-  line-height: 1.5;
-}
-.api-status-line.ok    { color: var(--success); }
-.api-status-line.warn  { color: var(--warning); }
-.api-status-line.fail  { color: var(--error); }
-
-/* Proxy attempt log */
-.proxy-log {
-  margin-top: var(--s2);
-  font-size: 0.72rem;
-  font-family: monospace;
-  color: var(--muted);
-  max-height: 80px;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.3);
-  border-radius: var(--r);
-  padding: var(--s2) var(--s3);
-  display: none;
-}
-.proxy-log.visible { display: block; }
-.proxy-log-line { margin-bottom: 2px; }
-.proxy-log-line.ok   { color: var(--success); }
-.proxy-log-line.fail { color: var(--error); }
-.proxy-log-line.try  { color: var(--warning); }
-
-/* Cloudflare Worker setup info */
-.cf-info {
-  margin-top: var(--s3);
-  font-size: 0.75rem;
-  color: var(--muted);
-  background: rgba(99,102,241,0.08);
-  border: 1px solid rgba(99,102,241,0.2);
-  border-radius: var(--r);
-  padding: var(--s3);
-  display: none;
-}
-.cf-info.visible { display: block; }
-.cf-info code {
-  display: block;
-  background: rgba(0,0,0,0.4);
-  border-radius: 4px;
-  padding: var(--s2) var(--s3);
-  font-size: 0.7rem;
-  color: #a5b4fc;
-  white-space: pre;
-  overflow-x: auto;
-  margin: var(--s2) 0;
-}
-.cf-info a { color: #818cf8; text-decoration: underline; }
-
-/* ── Section Titles ── */
-h2 {
-  border-left: 4px solid var(--accent);
-  padding-left: var(--s3);
-  margin-top: var(--s12);
-  margin-bottom: var(--s6);
-  font-size: 1.2rem;
-}
-
-/* ── Collapsible Rounds ── */
-.round-always-open { margin-bottom: var(--s6); }
-
-.round-static-label {
-  background: var(--card);
-  padding: var(--s3) var(--s4);
-  border-radius: var(--r);
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: var(--s4);
-  border-bottom: 2px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-}
-.round-static-label::before { content: "🟢"; font-size: 0.8rem; }
-
-details.round-details {
-  background: var(--card);
-  border-radius: var(--r);
-  margin-bottom: var(--s4);
-  border: 1px solid var(--border);
-  overflow: hidden;
-}
-summary.round-summary {
-  padding: var(--s3) var(--s4);
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 48px;
-  user-select: none;
-}
-summary.round-summary::-webkit-details-marker { display: none; }
-summary.round-summary::after {
-  content: "展開 ▼";
-  font-size: 0.75rem;
-  color: var(--muted);
-  background: rgba(255,255,255,0.04);
-  padding: var(--s1) var(--s3);
-  border-radius: var(--r);
-  white-space: nowrap;
-}
-details[open] summary.round-summary::after { content: "收起 ▲"; color: var(--accent); }
-.details-inner {
-  padding: var(--s4);
-  background: rgba(15,23,42,0.4);
-  border-top: 1px solid var(--border);
-}
-
-/* ── Match Grid ── */
-.match-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: var(--s4);
-}
-
-.match-card {
-  background: var(--card);
-  border-radius: var(--r);
-  padding: var(--s4);
-  border-left: 4px solid #888;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  transition: box-shadow 0.2s;
-}
-.match-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.group-badge {
-  color: #fff;
-  padding: 2px 10px;
-  border-radius: 99px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.match-id { font-size: 0.7rem; color: var(--muted); font-family: monospace; }
-.match-time { font-size: 0.82rem; color: var(--muted); font-family: monospace; font-weight: 600; }
-.match-teams { font-size: 1.05rem; font-weight: 700; }
-.live-score {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--accent);
-  font-family: monospace;
-  letter-spacing: 2px;
-  font-variant-numeric: tabular-nums;
-  min-height: 1.6rem;
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-}
-.live-tag {
-  font-size: 0.65rem;
-  background: #EF4444;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  animation: pulse 1.5s infinite;
-}
-.ft-tag { font-size: 0.65rem; color: var(--muted); }
-.match-venue {
-  font-size: 0.75rem;
-  color: var(--muted);
-  border-top: 1px dashed rgba(255,255,255,0.07);
-  padding-top: var(--s2);
-  line-height: 1.4;
-}
-
-/* ── News ── */
-#news-section {
-  margin-top: var(--s12);
-  padding-top: var(--s6);
-  border-top: 2px solid var(--border);
-}
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: var(--s5);
-}
-.news-card {
-  background: var(--card);
-  border-radius: var(--r);
-  border-top: 3px solid var(--border);
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-.news-card:hover { border-top-color: var(--accent); }
-.news-body { padding: var(--s4); }
-.news-tag {
-  font-size: 0.68rem;
-  background: rgba(242,94,139,0.1);
-  color: var(--accent);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.news-title { font-size: 0.92rem; font-weight: 700; margin: var(--s3) 0 var(--s2); }
-.news-date { font-size: 0.7rem; color: var(--muted); font-family: monospace; }
-
-/* ── Footer ── */
-.footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.72rem;
-  margin-top: var(--s12);
-  padding-top: var(--s6);
-  border-top: 1px solid var(--border);
-  line-height: 2.2;
-}
-.footer a { color: var(--accent); }
-
-@keyframes pollBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-@media (max-width: 640px) {
-  body { padding-left: var(--s3); padding-right: var(--s3); }
-  .match-grid, .news-grid { grid-template-columns: 1fr; }
-  h1 { font-size: 1.2rem; }
-  .top-bar { padding: var(--s2) var(--s3); }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
+.top-bar-title{font-size:0.95rem;font-weight:800}
+.sync-badge{display:flex;align-items:center;gap:0.5rem;font-size:0.72rem;color:var(--muted);font-family:monospace}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s}
+.sync-dot.live{background:var(--success);animation:pulse 2s infinite}
+.sync-dot.syncing{background:var(--warning)}
+.sync-dot.error{background:var(--error)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{text-align:center;font-size:clamp(1.2rem,4vw,1.8rem);font-weight:800;margin-bottom:0.5rem}
+.subtitle{text-align:center;color:var(--muted);font-size:0.8rem;margin-bottom:1.5rem}
+.api-panel{background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1rem;margin-bottom:1.5rem}
+.api-panel-header{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.75rem}
+.api-panel-title{font-size:0.85rem;font-weight:700}
+.mode-tabs{display:flex;gap:0.5rem}
+.mode-tab{padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.75rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all 0.2s;min-height:36px}
+.mode-tab:hover{color:var(--text)}
+.mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.api-status{font-size:0.78rem;color:var(--muted);background:rgba(15,23,42,0.5);border-radius:0.5rem;padding:0.5rem 0.75rem;line-height:1.5}
+.api-status.ok{color:var(--success)}.api-status.warn{color:var(--warning)}.api-status.fail{color:var(--error)}
+.btn-refresh{margin-top:0.75rem;display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.78rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text);transition:all 0.2s}
+.btn-refresh:hover{background:rgba(255,255,255,0.1)}
+.btn-refresh:disabled{opacity:0.4;cursor:default}
+.quota-info{margin-top:0.5rem;font-size:0.72rem;color:var(--muted)}
+h2{border-left:4px solid var(--accent);padding-left:0.75rem;margin-top:3rem;margin-bottom:1.5rem;font-size:1.15rem}
+.round-label{background:var(--card);padding:0.75rem 1rem;border-radius:0.5rem;font-size:0.9rem;font-weight:700;margin-bottom:1rem;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:0.5rem}
+details.rd{background:var(--card);border-radius:0.5rem;margin-bottom:1rem;border:1px solid var(--border);overflow:hidden}
+summary.rs{padding:0.75rem 1rem;font-size:0.9rem;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:48px;user-select:none}
+summary.rs::-webkit-details-marker{display:none}
+summary.rs::after{content:"展開 ▼";font-size:0.72rem;color:var(--muted);background:rgba(255,255,255,0.04);padding:2px 8px;border-radius:4px}
+details[open] summary.rs::after{content:"收起 ▲";color:var(--accent)}
+.rd-inner{padding:1rem;background:rgba(15,23,42,0.4);border-top:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+.mc{background:var(--card);border-radius:0.5rem;padding:1rem;border-left:4px solid #888;display:flex;flex-direction:column;gap:0.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.mc-header{display:flex;justify-content:space-between;align-items:center}
+.gbadge{color:#fff;padding:2px 10px;border-radius:99px;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.mid{font-size:0.68rem;color:var(--muted);font-family:monospace}
+.mt{font-size:0.8rem;color:var(--muted);font-family:monospace;font-weight:600}
+.mteams{font-size:1rem;font-weight:700}
+.mscore{font-size:1.15rem;font-weight:800;color:var(--accent);font-family:monospace;letter-spacing:2px;font-variant-numeric:tabular-nums;min-height:1.5rem;display:flex;align-items:center;gap:0.5rem}
+.ltag{font-size:0.62rem;background:#EF4444;color:#fff;padding:2px 6px;border-radius:4px;animation:pulse 1.5s infinite}
+.fttag{font-size:0.62rem;color:var(--muted)}
+.mvenue{font-size:0.72rem;color:var(--muted);border-top:1px dashed rgba(255,255,255,0.07);padding-top:0.5rem;line-height:1.4}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem}
+.nc{background:var(--card);border-radius:0.5rem;border-top:3px solid var(--border);overflow:hidden;transition:border-color 0.2s}
+.nc:hover{border-top-color:var(--accent)}
+.nc-body{padding:1rem}
+.ntag{font-size:0.68rem;background:rgba(242,94,139,0.1);color:var(--accent);padding:2px 8px;border-radius:4px;font-weight:700;text-transform:uppercase}
+.ntitle{font-size:0.9rem;font-weight:700;margin:0.5rem 0 0.4rem}
+.ndate{font-size:0.7rem;color:var(--muted);font-family:monospace}
+footer{text-align:center;color:var(--muted);font-size:0.7rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);line-height:2.2}
+@media(max-width:640px){body{padding-left:0.75rem;padding-right:0.75rem}.grid,.news-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 </style>
 </head>
 <body>
 
-<!-- ══ Sticky Top Bar ══ -->
 <div class="top-bar">
-  <span class="top-bar-title">⚽ 世界盃 2026 HKT</span>
+  <div class="top-bar-title">⚽ 世界盃 2026</div>
   <div class="sync-badge">
     <div class="sync-dot" id="syncDot"></div>
-    <span id="syncLabel">待機中...</span>
+    <span id="syncLabel">等待同步</span>
   </div>
 </div>
 
-<!-- ══ Header ══ -->
 <h1>2026 美加墨世界盃完整賽程</h1>
-<div class="subtitle">所有時間均已轉換為香港時間 (HKT) UTC+8 · 每 60 秒自動同步</div>
+<div class="subtitle">所有時間均為香港時間 HKT (UTC+8) · 72場小組賽 + 32場淘汰賽</div>
 
-<!-- ══ API Control Panel ══ -->
 <div class="api-panel">
   <div class="api-panel-header">
-    <span class="api-panel-title">🔌 即時比分數據源</span>
+    <span class="api-panel-title">🔌 即時比分</span>
     <div class="mode-tabs">
-      <button class="mode-tab" id="tab-auto"   onclick="setMode('auto')">⚡ 自動</button>
-      <button class="mode-tab" id="tab-cf"     onclick="setMode('cf')">☁️ CF Worker</button>
-      <button class="mode-tab" id="tab-mock"   onclick="setMode('mock')">🧪 模擬</button>
+      <button class="mode-tab active" id="tab-auto" onclick="setMode('auto')">⚡ 即時</button>
+      <button class="mode-tab" id="tab-mock" onclick="setMode('mock')">🧪 模擬</button>
     </div>
   </div>
-
-  <div class="api-status-line" id="apiStatusLine">
-    ⏳ 按下「自動」開始自動嘗試最佳連線方式...
-  </div>
-
-  <div class="proxy-log" id="proxyLog"></div>
-
-  <!-- Cloudflare Worker 設定說明 (cf 模式下顯示) -->
-  <div class="cf-info" id="cfInfo">
-    <strong style="color:#a5b4fc">☁️ Cloudflare Worker 一次性設定（免費）：</strong><br>
-    1. 前往 <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a> 免費註冊<br>
-    2. 建立新 Worker，貼上以下代碼：
-    <code>// Cloudflare Worker — football-data.org CORS Proxy
-export default {
-  async fetch(request) {
-    const API_KEY = "723919707d8e4d879f6ea010b2c82c31";
-    const url = "https://api.football-data.org/v4/competitions/WC/matches";
-    const res = await fetch(url, { headers: { "X-Auth-Token": API_KEY } });
-    const data = await res.text();
-    return new Response(data, {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
-    });
-  }
-};</code>
-    3. 部署後將 Worker URL 貼入下方：<br>
-    <input id="cfUrlInput" type="text"
-      placeholder="https://your-worker.your-name.workers.dev"
-      style="width:100%;background:rgba(0,0,0,0.4);border:1px solid var(--border);
-             border-radius:var(--r);padding:var(--s2) var(--s3);color:var(--text);
-             font-size:0.78rem;margin-top:var(--s2);font-family:monospace">
-    <button onclick="saveCfUrl()"
-      style="margin-top:var(--s2);padding:var(--s2) var(--s4);background:var(--ko);
-             color:#fff;border:none;border-radius:var(--r);font-size:0.78rem;
-             font-weight:700;cursor:pointer;min-height:36px">
-      💾 儲存並使用
-    </button>
-  </div>
+  <div class="api-status" id="apiStatus">初始化中...</div>
+  <div class="quota-info" id="quotaInfo"></div>
+  <button class="btn-refresh" id="btnRefresh" onclick="manualRefresh()">🔄 立即同步</button>
 </div>
 
-<!-- ══ Schedule ══ -->
-<h2>小組賽階段 (Group Stage A–L)</h2>
+<h2>小組賽 Group Stage (A–L)</h2>
 
-<div class="round-always-open">
-  <div class="round-static-label">第一輪賽事 (Matchday 1) — 全部展開</div>
-  <div class="match-grid" id="grid-r1"></div>
+<div style="margin-bottom:1.5rem">
+  <div class="round-label">🟢 第一輪 (Matchday 1) — 6月11–17日</div>
+  <div class="grid" id="g1"></div>
 </div>
-
-<details class="round-details">
-  <summary class="round-summary">第二輪賽事 (Matchday 2)</summary>
-  <div class="details-inner"><div class="match-grid" id="grid-r2"></div></div>
+<details class="rd">
+  <summary class="rs">第二輪 (Matchday 2) — 6月18–23日</summary>
+  <div class="rd-inner"><div class="grid" id="g2"></div></div>
+</details>
+<details class="rd">
+  <summary class="rs">第三輪 (Matchday 3) — 6月24–27日</summary>
+  <div class="rd-inner"><div class="grid" id="g3"></div></div>
 </details>
 
-<details class="round-details">
-  <summary class="round-summary">第三輪賽事 (Matchday 3)</summary>
-  <div class="details-inner"><div class="match-grid" id="grid-r3"></div></div>
-</details>
+<h2>淘汰賽 Knockout Stage</h2>
+<div class="grid" id="gko"></div>
 
-<h2>淘汰賽階段 (Knockout Stage)</h2>
-<div class="match-grid" id="grid-ko"></div>
-
-<!-- ══ News ══ -->
-<div id="news-section">
-  <h2>即時賽事新聞 (RSS Feed)</h2>
+<div style="margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--border)">
+  <h2>即時賽事新聞</h2>
   <div class="news-grid">
-    <div class="news-card"><div class="news-body">
-      <span class="news-tag">LIVE UPDATES</span>
-      <div class="news-title">世界盃倒計時：各大球場動態與即時通訊接口調整完畢</div>
-      <div class="news-date">2026-06-12 14:00</div>
+    <div class="nc"><div class="nc-body">
+      <span class="ntag">RESULT</span>
+      <div class="ntitle">揭幕戰：墨西哥 vs 南非 — 阿茲特克體育場</div>
+      <div class="ndate">2026-06-11 03:00 HKT</div>
     </div></div>
-    <div class="news-card"><div class="news-body">
-      <span class="news-tag">TEAM INFO</span>
-      <div class="news-title">Group A 墨西哥國家隊抵達阿茲特克體育場進行揭幕戰最後備戰</div>
-      <div class="news-date">2026-06-12 12:30</div>
+    <div class="nc"><div class="nc-body">
+      <span class="ntag">RESULT</span>
+      <div class="ntitle">韓國 vs 捷克 — 瓜達拉哈拉 阿克倫球場</div>
+      <div class="ndate">2026-06-11 10:00 HKT</div>
     </div></div>
-    <div class="news-card"><div class="news-body">
-      <span class="news-tag">WEATHER</span>
-      <div class="news-title">洛杉磯索菲體育場氣溫預測：高溫環境對各隊體能帶來新挑戰</div>
-      <div class="news-date">2026-06-12 10:15</div>
+    <div class="nc"><div class="nc-body">
+      <span class="ntag">TODAY</span>
+      <div class="ntitle">加拿大 vs 波斯尼亞赫塞哥維納 — 多倫多 BMO球場</div>
+      <div class="ndate">2026-06-12 03:00 HKT</div>
     </div></div>
   </div>
 </div>
 
-<!-- ══ Footer ══ -->
-<div class="footer">
-  <div>📱 手機安裝：瀏覽器「分享」→「加入主畫面」即可離線使用</div>
-  <div>🔄 每 60 秒自動同步比分 | 數據：<a href="https://www.football-data.org" target="_blank">football-data.org</a></div>
-  <div>⚡ 自動模式：依序嘗試多個 CORS Proxy，失敗時自動切換備用</div>
-</div>
+<footer>
+  2026 FIFA World Cup · 所有時間 HKT (UTC+8) · June 11 – July 19, 2026
+</footer>
 
-<!-- ══════════════════════════════════════
-     DATA
-══════════════════════════════════════ -->
 <script>
-const GROUP_COLORS = {
-  "Group A":"#0052FF","Group B":"#FF5A1F","Group C":"#00D2C4","Group D":"#FF007A",
-  "Group E":"#7928CA","Group F":"#FF9900","Group G":"#B5CC18","Group H":"#C5A880",
-  "Group I":"#E0A899","Group J":"#3A7046","Group K":"#1A4570","Group L":"#667788",
-  "Knockout":"#6366F1"
+/* ── 分組顏色 ── */
+const GC = {
+  "A":"#0052FF","B":"#FF5A1F","C":"#00C49A","D":"#FF007A",
+  "E":"#7928CA","F":"#FF9900","G":"#16A34A","H":"#E57C23",
+  "I":"#0EA5E9","J":"#DB2777","K":"#9333EA","L":"#64748B","KO":"#6366F1"
 };
 
+/* ══════════════════════════════════════
+   正確賽程數據（來源：FIFA官方 + roadtrips.com）
+   時間全部轉換為 HKT (UTC+8) = EST + 13小時
+══════════════════════════════════════ */
 const SCHEDULE = [
-  // ── Matchday 1 ──
-  {id:"M01",r:1,g:"Group A",t:"06/12 03:00",m:"墨西哥 vs 南非",v:"墨西哥城 - 阿茲特克體育場"},
-  {id:"M02",r:1,g:"Group A",t:"06/12 10:00",m:"韓國 vs 捷克",v:"瓜達拉哈拉 - 阿克倫球場"},
-  {id:"M03",r:1,g:"Group B",t:"06/13 03:00",m:"加拿大 vs 波斯尼亞",v:"多倫多 - BMO球場"},
-  {id:"M04",r:1,g:"Group B",t:"06/13 06:00",m:"新西蘭 vs 烏拉圭",v:"溫哥華 - BC體育館"},
-  {id:"M05",r:1,g:"Group C",t:"06/13 09:00",m:"美國 vs 威爾斯",v:"洛杉磯 - 索菲體育場"},
-  {id:"M06",r:1,g:"Group C",t:"06/13 12:00",m:"巴拉圭 vs 厄瓜多爾",v:"西雅圖 - 流明球場"},
-  {id:"M07",r:1,g:"Group D",t:"06/14 03:00",m:"巴西 vs 摩洛哥",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M08",r:1,g:"Group D",t:"06/14 06:00",m:"蘇格蘭 vs 阿曼",v:"波士頓 - 吉列體育場"},
-  {id:"M09",r:1,g:"Group E",t:"06/14 09:00",m:"阿根廷 vs 塞內加爾",v:"邁阿密 - 硬石體育場"},
-  {id:"M10",r:1,g:"Group E",t:"06/14 12:00",m:"阿爾及利亞 vs 芬蘭",v:"奧蘭多 - 露營世界體育場"},
-  {id:"M11",r:1,g:"Group F",t:"06/15 03:00",m:"法國 vs 澳洲",v:"達拉斯 - AT&T體育場"},
-  {id:"M12",r:1,g:"Group F",t:"06/15 06:00",m:"土耳其 vs 加納",v:"休斯頓 - NRG體育場"},
-  {id:"M13",r:1,g:"Group G",t:"06/15 09:00",m:"德國 vs 日本",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M14",r:1,g:"Group G",t:"06/15 12:00",m:"哥斯達黎加 vs 埃及",v:"夏洛特 - 美國銀行體育場"},
-  {id:"M15",r:1,g:"Group H",t:"06/16 03:00",m:"英格蘭 vs 突尼西亞",v:"費城 - 林肯金融球場"},
-  {id:"M16",r:1,g:"Group H",t:"06/16 06:00",m:"克羅地亞 vs 牙買加",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M17",r:1,g:"Group I",t:"06/16 09:00",m:"西班牙 vs 瑞典",v:"三藩市灣區 - 李維斯體育場"},
-  {id:"M18",r:1,g:"Group I",t:"06/16 12:00",m:"尼日利亞 vs 洪都拉斯",v:"洛杉磯 - 索菲體育場"},
-  {id:"M19",r:1,g:"Group J",t:"06/17 03:00",m:"葡萄牙 vs 喀麥隆",v:"達拉斯 - AT&T體育場"},
-  {id:"M20",r:1,g:"Group J",t:"06/17 06:00",m:"奧地利 vs 阿聯酋",v:"休斯頓 - NRG體育場"},
-  {id:"M21",r:1,g:"Group K",t:"06/17 09:00",m:"比利時 vs 伊朗",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M22",r:1,g:"Group K",t:"06/17 12:00",m:"秘魯 vs 卡塔爾",v:"費城 - 林肯金融球場"},
-  {id:"M23",r:1,g:"Group L",t:"06/18 03:00",m:"荷蘭 vs 塞爾維亞",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M24",r:1,g:"Group L",t:"06/18 06:00",m:"加拿大B vs 智利",v:"波士頓 - 吉列體育場"},
-  // ── Matchday 2 ──
-  {id:"M25",r:2,g:"Group A",t:"06/18 09:00",m:"墨西哥 vs 韓國",v:"瓜達拉哈拉 - 阿克倫球場"},
-  {id:"M26",r:2,g:"Group A",t:"06/18 12:00",m:"南非 vs 捷克",v:"墨西哥城 - 阿茲特克體育場"},
-  {id:"M27",r:2,g:"Group B",t:"06/19 03:00",m:"加拿大 vs 新西蘭",v:"多倫多 - BMO球場"},
-  {id:"M28",r:2,g:"Group B",t:"06/19 06:00",m:"波斯尼亞 vs 烏拉圭",v:"溫哥華 - BC體育館"},
-  {id:"M29",r:2,g:"Group C",t:"06/19 09:00",m:"美國 vs 巴拉圭",v:"西雅圖 - 流明球場"},
-  {id:"M30",r:2,g:"Group C",t:"06/19 12:00",m:"威爾斯 vs 厄瓜多爾",v:"洛杉磯 - 索菲體育場"},
-  {id:"M31",r:2,g:"Group D",t:"06/20 03:00",m:"巴西 vs 蘇格蘭",v:"波士頓 - 吉列體育場"},
-  {id:"M32",r:2,g:"Group D",t:"06/20 06:00",m:"摩洛哥 vs 阿曼",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M33",r:2,g:"Group E",t:"06/20 09:00",m:"阿根廷 vs 阿爾及利亞",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M34",r:2,g:"Group E",t:"06/20 12:00",m:"塞內加爾 vs 芬蘭",v:"邁阿密 - 硬石體育場"},
-  {id:"M35",r:2,g:"Group F",t:"06/21 03:00",m:"法國 vs 土耳其",v:"休斯頓 - NRG體育場"},
-  {id:"M36",r:2,g:"Group F",t:"06/21 06:00",m:"澳洲 vs 加納",v:"達拉斯 - AT&T體育場"},
-  {id:"M37",r:2,g:"Group G",t:"06/21 09:00",m:"德國 vs 哥斯達黎加",v:"夏洛特 - 美國銀行體育場"},
-  {id:"M38",r:2,g:"Group G",t:"06/21 12:00",m:"日本 vs 埃及",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M39",r:2,g:"Group H",t:"06/22 03:00",m:"英格蘭 vs 克羅地亞",v:"費城 - 林肯金融球場"},
-  {id:"M40",r:2,g:"Group H",t:"06/22 06:00",m:"突尼西亞 vs 牙買加",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M41",r:2,g:"Group I",t:"06/22 09:00",m:"西班牙 vs 尼日利亞",v:"三藩市灣區 - 李維斯體育場"},
-  {id:"M42",r:2,g:"Group I",t:"06/22 12:00",m:"瑞典 vs 洪都拉斯",v:"洛杉磯 - 索菲體育場"},
-  {id:"M43",r:2,g:"Group J",t:"06/23 03:00",m:"葡萄牙 vs 奧地利",v:"達拉斯 - AT&T體育場"},
-  {id:"M44",r:2,g:"Group J",t:"06/23 06:00",m:"喀麥隆 vs 阿聯酋",v:"休斯頓 - NRG體育場"},
-  {id:"M45",r:2,g:"Group K",t:"06/23 09:00",m:"比利時 vs 秘魯",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M46",r:2,g:"Group K",t:"06/23 12:00",m:"伊朗 vs 卡塔爾",v:"費城 - 林肯金融球場"},
-  {id:"M47",r:2,g:"Group L",t:"06/24 01:00",m:"荷蘭 vs 加拿大B",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M48",r:2,g:"Group L",t:"06/24 03:00",m:"塞爾維亞 vs 智利",v:"波士頓 - 吉列體育場"},
-  // ── Matchday 3 ──
-  {id:"M49",r:3,g:"Group A",t:"06/25 04:00",m:"捷克 vs 墨西哥",v:"達拉斯 - AT&T體育場"},
-  {id:"M50",r:3,g:"Group A",t:"06/25 04:00",m:"南非 vs 韓國",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M51",r:3,g:"Group B",t:"06/25 08:00",m:"烏拉圭 vs 加拿大",v:"三藩市灣區 - 李維斯體育場"},
-  {id:"M52",r:3,g:"Group B",t:"06/25 08:00",m:"波斯尼亞 vs 新西蘭",v:"洛杉磯 - 索菲體育場"},
-  {id:"M53",r:3,g:"Group C",t:"06/26 04:00",m:"厄瓜多爾 vs 美國",v:"西雅圖 - 流明球場"},
-  {id:"M54",r:3,g:"Group C",t:"06/26 04:00",m:"威爾斯 vs 巴拉圭",v:"溫哥華 - BC體育館"},
-  {id:"M55",r:3,g:"Group D",t:"06/26 08:00",m:"阿曼 vs 巴西",v:"休斯頓 - NRG體育場"},
-  {id:"M56",r:3,g:"Group D",t:"06/26 08:00",m:"摩洛哥 vs 蘇格蘭",v:"多倫多 - BMO球場"},
-  {id:"M57",r:3,g:"Group E",t:"06/27 04:00",m:"芬蘭 vs 阿根廷",v:"費城 - 林肯金融球場"},
-  {id:"M58",r:3,g:"Group E",t:"06/27 04:00",m:"塞內加爾 vs 阿爾及利亞",v:"波士頓 - 吉列體育場"},
-  {id:"M59",r:3,g:"Group F",t:"06/27 08:00",m:"加納 vs 法國",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M60",r:3,g:"Group F",t:"06/27 08:00",m:"土耳其 vs 澳洲",v:"夏洛特 - 美國銀行體育場"},
-  {id:"M61",r:3,g:"Group G",t:"06/28 04:00",m:"埃及 vs 德國",v:"邁阿密 - 硬石體育場"},
-  {id:"M62",r:3,g:"Group G",t:"06/28 04:00",m:"日本 vs 哥斯達黎加",v:"奧蘭多 - 露營世界體育場"},
-  {id:"M63",r:3,g:"Group H",t:"06/28 08:00",m:"牙買加 vs 英格蘭",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M64",r:3,g:"Group H",t:"06/28 08:00",m:"克羅地亞 vs 突尼西亞",v:"達拉斯 - AT&T體育場"},
-  {id:"M65",r:3,g:"Group I",t:"06/29 03:00",m:"洪都拉斯 vs 西班牙",v:"洛杉磯 - 索菲體育場"},
-  {id:"M66",r:3,g:"Group I",t:"06/29 03:00",m:"尼日利亞 vs 瑞典",v:"西雅圖 - 流明球場"},
-  {id:"M67",r:3,g:"Group J",t:"06/29 07:00",m:"阿聯酋 vs 葡萄牙",v:"三藩市灣區 - 李維斯體育場"},
-  {id:"M68",r:3,g:"Group J",t:"06/29 07:00",m:"奧地利 vs 喀麥隆",v:"溫哥華 - BC體育館"},
-  {id:"M69",r:3,g:"Group K",t:"06/30 03:00",m:"卡塔爾 vs 比利時",v:"多倫多 - BMO球場"},
-  {id:"M70",r:3,g:"Group K",t:"06/30 03:00",m:"秘魯 vs 伊朗",v:"波士頓 - 吉列體育場"},
-  {id:"M71",r:3,g:"Group L",t:"06/30 07:00",m:"智利 vs 荷蘭",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M72",r:3,g:"Group L",t:"06/30 07:00",m:"加拿大B vs 塞爾維亞",v:"費城 - 林肯金融球場"},
-  // ── Knockout ──
-  {id:"M73",r:"KO",g:"32強淘汰賽",t:"07/01 01:00",m:"A組首名 vs C組次名",v:"洛杉磯 - 索菲體育場"},
-  {id:"M74",r:"KO",g:"32強淘汰賽",t:"07/01 05:00",m:"E組首名 vs F組次名",v:"波士頓 - 吉列體育場"},
-  {id:"M75",r:"KO",g:"32強淘汰賽",t:"07/01 09:00",m:"B組首名 vs 最佳第三名",v:"達拉斯 - AT&T體育場"},
-  {id:"M76",r:"KO",g:"32強淘汰賽",t:"07/02 01:00",m:"D組首名 vs 最佳第三名",v:"休斯頓 - NRG體育場"},
-  {id:"M77",r:"KO",g:"32強淘汰賽",t:"07/02 05:00",m:"G組首名 vs H組次名",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M78",r:"KO",g:"32強淘汰賽",t:"07/02 09:00",m:"I組首名 vs J組次名",v:"費城 - 林肯金融球場"},
-  {id:"M79",r:"KO",g:"32強淘汰賽",t:"07/03 01:00",m:"K組首名 vs L組次名",v:"西雅圖 - 流明球場"},
-  {id:"M80",r:"KO",g:"32強淘汰賽",t:"07/03 05:00",m:"C組首名 vs A組次名",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M81",r:"KO",g:"32強淘汰賽",t:"07/03 09:00",m:"F組首名 vs E組次名",v:"夏洛特 - 美國銀行體育場"},
-  {id:"M82",r:"KO",g:"32強淘汰賽",t:"07/04 01:00",m:"H組首名 vs G組次名",v:"三藩市灣區 - 李維斯體育場"},
-  {id:"M83",r:"KO",g:"32強淘汰賽",t:"07/04 05:00",m:"J組首名 vs I組次名",v:"邁阿密 - 硬石體育場"},
-  {id:"M84",r:"KO",g:"32強淘汰賽",t:"07/04 09:00",m:"L組首名 vs K組次名",v:"奧蘭多 - 露營世界體育場"},
-  {id:"M85",r:"KO",g:"32強淘汰賽",t:"07/05 01:00",m:"最佳第三名A vs 最佳第三名B",v:"溫哥華 - BC體育館"},
-  {id:"M86",r:"KO",g:"32強淘汰賽",t:"07/05 05:00",m:"最佳第三名C vs 最佳第三名D",v:"多倫多 - BMO球場"},
-  {id:"M87",r:"KO",g:"32強淘汰賽",t:"07/05 09:00",m:"最佳第三名E vs 最佳第三名F",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M88",r:"KO",g:"32強淘汰賽",t:"07/06 01:00",m:"最佳第三名G vs 最佳第三名H",v:"墨西哥城 - 阿茲特克體育場"},
-  {id:"M89",r:"KO",g:"16強淘汰賽",t:"07/07 04:00",m:"賽事73勝方 vs 賽事74勝方",v:"紐約/新澤西 - 大都會人壽體育場"},
-  {id:"M90",r:"KO",g:"16強淘汰賽",t:"07/07 08:00",m:"賽事75勝方 vs 賽事76勝方",v:"達拉斯 - AT&T體育場"},
-  {id:"M91",r:"KO",g:"16強淘汰賽",t:"07/08 04:00",m:"賽事77勝方 vs 賽事78勝方",v:"邁阿密 - 硬石體育場"},
-  {id:"M92",r:"KO",g:"16強淘汰賽",t:"07/08 08:00",m:"賽事79勝方 vs 賽事80勝方",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M93",r:"KO",g:"16強淘汰賽",t:"07/09 04:00",m:"賽事81勝方 vs 賽事82勝方",v:"洛杉磯 - 索菲體育場"},
-  {id:"M94",r:"KO",g:"16強淘汰賽",t:"07/09 08:00",m:"賽事83勝方 vs 賽事84勝方",v:"費城 - 林肯金融球場"},
-  {id:"M95",r:"KO",g:"16強淘汰賽",t:"07/10 04:00",m:"賽事85勝方 vs 賽事86勝方",v:"西雅圖 - 流明球場"},
-  {id:"M96",r:"KO",g:"16強淘汰賽",t:"07/10 08:00",m:"賽事87勝方 vs 賽事88勝方",v:"溫哥華 - BC體育館"},
-  {id:"M97",r:"KO",g:"8強準決賽", t:"07/12 05:00",m:"賽事89勝方 vs 賽事90勝方",v:"波士頓 - 吉列體育場"},
-  {id:"M98",r:"KO",g:"8強準決賽", t:"07/13 06:00",m:"賽事91勝方 vs 賽事92勝方",v:"邁阿密 - 硬石體育場"},
-  {id:"M99",r:"KO",g:"8強準決賽", t:"07/14 04:00",m:"賽事93勝方 vs 賽事94勝方",v:"堪薩斯城 - 箭頭體育場"},
-  {id:"M100",r:"KO",g:"8強準決賽",t:"07/15 09:00",m:"賽事95勝方 vs 賽事96勝方",v:"洛杉磯 - 索菲體育場"},
-  {id:"M101",r:"KO",g:"4強半決賽",t:"07/15 08:00",m:"賽事97勝方 vs 賽事98勝方",v:"達拉斯 - AT&T體育場"},
-  {id:"M102",r:"KO",g:"4強半決賽",t:"07/16 08:00",m:"賽事99勝方 vs 賽事100勝方",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
-  {id:"M103",r:"KO",g:"季軍戰",    t:"07/19 07:00",m:"賽事101負方 vs 賽事102負方",v:"邁阿密 - 硬石體育場"},
-  {id:"M104",r:"KO",g:"🏆 冠軍決賽",t:"07/20 03:00",m:"賽事101勝方 vs 賽事102勝方",v:"紐約/新澤西 - 大都會人壽體育場"}
+  /* ── 第一輪 Matchday 1 ── */
+  {id:"M01",r:1,g:"A",t:"06/11 04:00",m:"墨西哥 vs 南非",v:"墨西哥城 - 阿茲特克體育場"},
+  {id:"M02",r:1,g:"A",t:"06/11 11:00",m:"韓國 vs 捷克",v:"瓜達拉哈拉 - 阿克倫球場"},
+  {id:"M03",r:1,g:"B",t:"06/12 04:00",m:"加拿大 vs 波斯尼亞赫塞哥維納",v:"多倫多 - BMO球場"},
+  {id:"M04",r:1,g:"D",t:"06/12 10:00",m:"美國 vs 巴拉圭",v:"洛杉磯 - 索菲體育場"},
+  {id:"M05",r:1,g:"C",t:"06/13 07:00",m:"巴西 vs 摩洛哥",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M06",r:1,g:"D",t:"06/13 01:00",m:"澳洲 vs 土耳其",v:"溫哥華 - BC體育館"},
+  {id:"M07",r:1,g:"C",t:"06/13 10:00",m:"海地 vs 蘇格蘭",v:"波士頓 - 吉列體育場"},
+  {id:"M08",r:1,g:"B",t:"06/14 04:00",m:"卡塔爾 vs 瑞士",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M09",r:1,g:"E",t:"06/14 02:00",m:"德國 vs 庫拉索",v:"休斯頓 - NRG體育場"},
+  {id:"M10",r:1,g:"E",t:"06/14 08:00",m:"科特迪瓦 vs 厄瓜多爾",v:"費城 - 林肯金融球場"},
+  {id:"M11",r:1,g:"F",t:"06/14 05:00",m:"荷蘭 vs 日本",v:"達拉斯 - AT&T體育場"},
+  {id:"M12",r:1,g:"F",t:"06/14 11:00",m:"瑞典 vs 突尼西亞",v:"蒙特雷 - BBVA體育場"},
+  {id:"M13",r:1,g:"H",t:"06/15 01:00",m:"西班牙 vs 佛得角",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M14",r:1,g:"H",t:"06/15 07:00",m:"沙特阿拉伯 vs 烏拉圭",v:"邁阿密 - 硬石體育場"},
+  {id:"M15",r:1,g:"G",t:"06/15 04:00",m:"比利時 vs 埃及",v:"西雅圖 - 流明球場"},
+  {id:"M16",r:1,g:"G",t:"06/15 10:00",m:"伊朗 vs 新西蘭",v:"洛杉磯 - 索菲體育場"},
+  {id:"M17",r:1,g:"I",t:"06/16 04:00",m:"法國 vs 塞內加爾",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M18",r:1,g:"I",t:"06/16 07:00",m:"伊拉克 vs 挪威",v:"波士頓 - 吉列體育場"},
+  {id:"M19",r:1,g:"J",t:"06/16 10:00",m:"阿根廷 vs 阿爾及利亞",v:"堪薩斯城 - 箭頭體育場"},
+  {id:"M20",r:1,g:"J",t:"06/17 01:00",m:"奧地利 vs 約旦",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M21",r:1,g:"K",t:"06/17 02:00",m:"葡萄牙 vs 剛果民主共和國",v:"休斯頓 - NRG體育場"},
+  {id:"M22",r:1,g:"K",t:"06/17 11:00",m:"烏茲別克斯坦 vs 哥倫比亞",v:"墨西哥城 - 阿茲特克體育場"},
+  {id:"M23",r:1,g:"L",t:"06/17 05:00",m:"英格蘭 vs 克羅地亞",v:"達拉斯 - AT&T體育場"},
+  {id:"M24",r:1,g:"L",t:"06/17 08:00",m:"加納 vs 巴拿馬",v:"多倫多 - BMO球場"},
+
+  /* ── 第二輪 Matchday 2 ── */
+  {id:"M25",r:2,g:"A",t:"06/18 01:00",m:"捷克 vs 南非",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M26",r:2,g:"B",t:"06/18 04:00",m:"瑞士 vs 波斯尼亞赫塞哥維納",v:"洛杉磯 - 索菲體育場"},
+  {id:"M27",r:2,g:"B",t:"06/18 07:00",m:"加拿大 vs 卡塔爾",v:"溫哥華 - BC體育館"},
+  {id:"M28",r:2,g:"A",t:"06/18 10:00",m:"墨西哥 vs 韓國",v:"瓜達拉哈拉 - 阿克倫球場"},
+  {id:"M29",r:2,g:"C",t:"06/19 04:00",m:"蘇格蘭 vs 摩洛哥",v:"波士頓 - 吉列體育場"},
+  {id:"M30",r:2,g:"D",t:"06/19 04:00",m:"美國 vs 澳洲",v:"西雅圖 - 流明球場"},
+  {id:"M31",r:2,g:"C",t:"06/19 10:00",m:"巴西 vs 海地",v:"費城 - 林肯金融球場"},
+  {id:"M32",r:2,g:"D",t:"06/19 12:00",m:"土耳其 vs 巴拉圭",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M33",r:2,g:"E",t:"06/20 05:00",m:"德國 vs 科特迪瓦",v:"多倫多 - BMO球場"},
+  {id:"M34",r:2,g:"F",t:"06/20 01:00",m:"突尼西亞 vs 日本",v:"蒙特雷 - BBVA體育場"},
+  {id:"M35",r:2,g:"E",t:"06/20 09:00",m:"厄瓜多爾 vs 庫拉索",v:"堪薩斯城 - 箭頭體育場"},
+  {id:"M36",r:2,g:"F",t:"06/20 04:00",m:"荷蘭 vs 瑞典",v:"休斯頓 - NRG體育場"},
+  {id:"M37",r:2,g:"H",t:"06/21 01:00",m:"西班牙 vs 沙特阿拉伯",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M38",r:2,g:"G",t:"06/21 04:00",m:"比利時 vs 伊朗",v:"洛杉磯 - 索菲體育場"},
+  {id:"M39",r:2,g:"H",t:"06/21 07:00",m:"烏拉圭 vs 佛得角",v:"邁阿密 - 硬石體育場"},
+  {id:"M40",r:2,g:"G",t:"06/21 10:00",m:"新西蘭 vs 埃及",v:"溫哥華 - BC體育館"},
+  {id:"M41",r:2,g:"I",t:"06/22 06:00",m:"法國 vs 伊拉克",v:"費城 - 林肯金融球場"},
+  {id:"M42",r:2,g:"I",t:"06/22 09:00",m:"挪威 vs 塞內加爾",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M43",r:2,g:"J",t:"06/22 02:00",m:"阿根廷 vs 奧地利",v:"達拉斯 - AT&T體育場"},
+  {id:"M44",r:2,g:"J",t:"06/22 12:00",m:"約旦 vs 阿爾及利亞",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M45",r:2,g:"L",t:"06/23 05:00",m:"英格蘭 vs 加納",v:"波士頓 - 吉列體育場"},
+  {id:"M46",r:2,g:"L",t:"06/23 08:00",m:"巴拿馬 vs 克羅地亞",v:"多倫多 - BMO球場"},
+  {id:"M47",r:2,g:"K",t:"06/23 02:00",m:"葡萄牙 vs 烏茲別克斯坦",v:"休斯頓 - NRG體育場"},
+  {id:"M48",r:2,g:"K",t:"06/23 11:00",m:"哥倫比亞 vs 剛果民主共和國",v:"瓜達拉哈拉 - 阿克倫球場"},
+
+  /* ── 第三輪 Matchday 3 ── */
+  {id:"M49",r:3,g:"B",t:"06/24 04:00",m:"瑞士 vs 加拿大",v:"溫哥華 - BC體育館"},
+  {id:"M50",r:3,g:"B",t:"06/24 04:00",m:"波斯尼亞赫塞哥維納 vs 卡塔爾",v:"西雅圖 - 流明球場"},
+  {id:"M51",r:3,g:"A",t:"06/24 10:00",m:"捷克 vs 墨西哥",v:"墨西哥城 - 阿茲特克體育場"},
+  {id:"M52",r:3,g:"A",t:"06/24 10:00",m:"南非 vs 韓國",v:"蒙特雷 - BBVA體育場"},
+  {id:"M53",r:3,g:"E",t:"06/25 05:00",m:"庫拉索 vs 科特迪瓦",v:"費城 - 林肯金融球場"},
+  {id:"M54",r:3,g:"E",t:"06/25 05:00",m:"厄瓜多爾 vs 德國",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M55",r:3,g:"F",t:"06/25 08:00",m:"日本 vs 瑞典",v:"達拉斯 - AT&T體育場"},
+  {id:"M56",r:3,g:"F",t:"06/25 08:00",m:"突尼西亞 vs 荷蘭",v:"堪薩斯城 - 箭頭體育場"},
+  {id:"M57",r:3,g:"D",t:"06/25 11:00",m:"土耳其 vs 美國",v:"洛杉磯 - 索菲體育場"},
+  {id:"M58",r:3,g:"D",t:"06/25 11:00",m:"巴拉圭 vs 澳洲",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M59",r:3,g:"C",t:"06/24 07:00",m:"蘇格蘭 vs 巴西",v:"邁阿密 - 硬石體育場"},
+  {id:"M60",r:3,g:"C",t:"06/24 07:00",m:"摩洛哥 vs 海地",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M61",r:3,g:"I",t:"06/26 04:00",m:"挪威 vs 法國",v:"波士頓 - 吉列體育場"},
+  {id:"M62",r:3,g:"I",t:"06/26 04:00",m:"塞內加爾 vs 伊拉克",v:"多倫多 - BMO球場"},
+  {id:"M63",r:3,g:"G",t:"06/26 12:00",m:"埃及 vs 伊朗",v:"西雅圖 - 流明球場"},
+  {id:"M64",r:3,g:"G",t:"06/26 12:00",m:"新西蘭 vs 比利時",v:"溫哥華 - BC體育館"},
+  {id:"M65",r:3,g:"H",t:"06/26 09:00",m:"佛得角 vs 沙特阿拉伯",v:"休斯頓 - NRG體育場"},
+  {id:"M66",r:3,g:"H",t:"06/26 09:00",m:"烏拉圭 vs 西班牙",v:"瓜達拉哈拉 - 阿克倫球場"},
+  {id:"M67",r:3,g:"L",t:"06/27 06:00",m:"巴拿馬 vs 英格蘭",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M68",r:3,g:"L",t:"06/27 06:00",m:"克羅地亞 vs 加納",v:"費城 - 林肯金融球場"},
+  {id:"M69",r:3,g:"J",t:"06/27 11:00",m:"阿爾及利亞 vs 奧地利",v:"堪薩斯城 - 箭頭體育場"},
+  {id:"M70",r:3,g:"J",t:"06/27 11:00",m:"約旦 vs 阿根廷",v:"達拉斯 - AT&T體育場"},
+  {id:"M71",r:3,g:"K",t:"06/27 08:30",m:"哥倫比亞 vs 葡萄牙",v:"邁阿密 - 硬石體育場"},
+  {id:"M72",r:3,g:"K",t:"06/27 08:30",m:"剛果民主共和國 vs 烏茲別克斯坦",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+
+  /* ── 32強淘汰賽 Round of 32 ── */
+  {id:"M73",r:"KO",g:"KO",t:"06/28 04:00",m:"A組次名 vs B組次名",v:"洛杉磯 - 索菲體育場"},
+  {id:"M74",r:"KO",g:"KO",t:"06/29 05:30",m:"E組首名 vs 最佳第三名(A/B/C/D/F組)",v:"波士頓 - 吉列體育場"},
+  {id:"M75",r:"KO",g:"KO",t:"06/29 10:00",m:"F組首名 vs C組次名",v:"蒙特雷 - BBVA體育場"},
+  {id:"M76",r:"KO",g:"KO",t:"06/29 02:00",m:"C組首名 vs F組次名",v:"休斯頓 - NRG體育場"},
+  {id:"M77",r:"KO",g:"KO",t:"06/30 06:00",m:"I組首名 vs 最佳第三名(C/D/F/G/H組)",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M78",r:"KO",g:"KO",t:"06/30 02:00",m:"E組次名 vs I組次名",v:"達拉斯 - AT&T體育場"},
+  {id:"M79",r:"KO",g:"KO",t:"06/30 10:00",m:"A組首名 vs 最佳第三名(C/E/F/H/I組)",v:"墨西哥城 - 阿茲特克體育場"},
+  {id:"M80",r:"KO",g:"KO",t:"07/01 01:00",m:"L組首名 vs 最佳第三名(E/H/I/J/K組)",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M81",r:"KO",g:"KO",t:"07/01 09:00",m:"D組首名 vs 最佳第三名(B/E/F/I/J組)",v:"三藩市灣區 - 李維斯體育場"},
+  {id:"M82",r:"KO",g:"KO",t:"07/01 05:00",m:"G組首名 vs 最佳第三名(A/E/H/I/J組)",v:"西雅圖 - 流明球場"},
+  {id:"M83",r:"KO",g:"KO",t:"07/02 08:00",m:"K組次名 vs L組次名",v:"多倫多 - BMO球場"},
+  {id:"M84",r:"KO",g:"KO",t:"07/02 04:00",m:"H組首名 vs J組次名",v:"洛杉磯 - 索菲體育場"},
+  {id:"M85",r:"KO",g:"KO",t:"07/02 12:00",m:"B組首名 vs 最佳第三名(E/F/G/I/J組)",v:"溫哥華 - BC體育館"},
+  {id:"M86",r:"KO",g:"KO",t:"07/03 07:00",m:"J組首名 vs H組次名",v:"邁阿密 - 硬石體育場"},
+  {id:"M87",r:"KO",g:"KO",t:"07/03 10:30",m:"K組首名 vs 最佳第三名(D/E/I/J/L組)",v:"堪薩斯城 - 箭頭體育場"},
+  {id:"M88",r:"KO",g:"KO",t:"07/03 03:00",m:"D組次名 vs G組次名",v:"達拉斯 - AT&T體育場"},
+
+  /* ── 16強 Round of 16 ── */
+  {id:"M89",r:"KO",g:"KO",t:"07/04 06:00",m:"賽事74勝方 vs 賽事77勝方",v:"費城 - 林肯金融球場"},
+  {id:"M90",r:"KO",g:"KO",t:"07/04 02:00",m:"賽事73勝方 vs 賽事75勝方",v:"休斯頓 - NRG體育場"},
+  {id:"M91",r:"KO",g:"KO",t:"07/05 05:00",m:"賽事76勝方 vs 賽事78勝方",v:"紐約/新澤西 - 大都會人壽體育場"},
+  {id:"M92",r:"KO",g:"KO",t:"07/05 09:00",m:"賽事79勝方 vs 賽事80勝方",v:"墨西哥城 - 阿茲特克體育場"},
+  {id:"M93",r:"KO",g:"KO",t:"07/06 04:00",m:"賽事83勝方 vs 賽事84勝方",v:"達拉斯 - AT&T體育場"},
+  {id:"M94",r:"KO",g:"KO",t:"07/06 09:00",m:"賽事81勝方 vs 賽事82勝方",v:"西雅圖 - 流明球場"},
+  {id:"M95",r:"KO",g:"KO",t:"07/07 01:00",m:"賽事86勝方 vs 賽事88勝方",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+  {id:"M96",r:"KO",g:"KO",t:"07/07 05:00",m:"賽事85勝方 vs 賽事87勝方",v:"溫哥華 - BC體育館"},
+
+  /* ── 8強 Quarter-finals ── */
+  {id:"M97",r:"KO",g:"KO",t:"07/09 05:00",m:"賽事89勝方 vs 賽事90勝方",v:"波士頓 - 吉列體育場"},
+  {id:"M98",r:"KO",g:"KO",t:"07/10 04:00",m:"賽事93勝方 vs 賽事94勝方",v:"洛杉磯 - 索菲體育場"},
+  {id:"M99",r:"KO",g:"KO",t:"07/11 06:00",m:"賽事91勝方 vs 賽事92勝方",v:"邁阿密 - 硬石體育場"},
+  {id:"M100",r:"KO",g:"KO",t:"07/11 10:00",m:"賽事95勝方 vs 賽事96勝方",v:"堪薩斯城 - 箭頭體育場"},
+
+  /* ── 4強 Semi-finals ── */
+  {id:"M101",r:"KO",g:"KO",t:"07/14 04:00",m:"賽事97勝方 vs 賽事98勝方",v:"達拉斯 - AT&T體育場"},
+  {id:"M102",r:"KO",g:"KO",t:"07/15 04:00",m:"賽事99勝方 vs 賽事100勝方",v:"亞特蘭大 - 梅賽德斯-賓士體育場"},
+
+  /* ── 季軍戰 Third Place ── */
+  {id:"M103",r:"KO",g:"KO",t:"07/18 06:00",m:"賽事101負方 vs 賽事102負方",v:"邁阿密 - 硬石體育場"},
+
+  /* ── 決賽 Final ── */
+  {id:"M104",r:"KO",g:"KO",t:"07/19 04:00",m:"賽事101勝方 vs 賽事102勝方",v:"紐約/新澤西 - 大都會人壽體育場"}
 ];
 
-// Match ID → football-data.org API ID mapping
-// Add more as official IDs are confirmed
-const ID_MAP = {
-  "M01": 1154320,
-  "M02": 1154321,
-  "M03": 1154322
+/* ── 分組名稱（繁體）── */
+const GN = {
+  "A":"Group A","B":"Group B","C":"Group C","D":"Group D",
+  "E":"Group E","F":"Group F","G":"Group G","H":"Group H",
+  "I":"Group I","J":"Group J","K":"Group K","L":"Group L",
+  "KO":"淘汰賽"
 };
 
-// ══════════════════════════════════════
-// DOM RENDERING
-// ══════════════════════════════════════
+/* ── 建立卡片 ── */
 function buildCards() {
-  const grids = { 1:"grid-r1", 2:"grid-r2", 3:"grid-r3", KO:"grid-ko" };
+  const grids = {1:"g1",2:"g2",3:"g3",KO:"gko"};
   SCHEDULE.forEach(m => {
-    const color = GROUP_COLORS[m.g] || GROUP_COLORS["Knockout"];
+    const color = GC[m.g] || "#6366F1";
     const el = document.createElement("div");
-    el.className = "match-card";
+    el.className = "mc";
     el.style.borderLeftColor = color;
     el.dataset.mid = m.id;
     el.innerHTML = `
-      <div class="card-header">
-        <span class="group-badge" style="background:${color}">${m.g}</span>
-        <span class="match-id">${m.id}</span>
+      <div class="mc-header">
+        <span class="gbadge" style="background:${color}">${GN[m.g]||m.g}</span>
+        <span class="mid">${m.id}</span>
       </div>
-      <div class="match-time">🕒 ${m.t} HKT</div>
-      <div class="match-teams">${m.m}</div>
-      <div class="live-score" id="sc-${m.id}">— : —</div>
-      <div class="match-venue">📍 ${m.v}</div>`;
-    const gridId = grids[m.r] || "grid-ko";
-    document.getElementById(gridId).appendChild(el);
+      <div class="mt">🕒 ${m.t} HKT</div>
+      <div class="mteams">${m.m}</div>
+      <div class="mscore" id="sc-${m.id}"><span style="color:var(--muted)">— : —</span></div>
+      <div class="mvenue">📍 ${m.v}</div>`;
+    document.getElementById(grids[m.r]||"gko").appendChild(el);
   });
 }
 
-// ══════════════════════════════════════
-// CORS PROXY ENGINE
-// ══════════════════════════════════════
-const API_KEY  = "723919707d8e4d879f6ea010b2c82c31";
-const API_URL  = "https://api.football-data.org/v4/competitions/WC/matches";
-const INTERVAL = 60000;
+/* ── API 配置 ── */
+const API_KEY = "zwc_free_167b5bcc367d0b97e29c7c5c";
+const API_URL = "https://api.zafronix.com/fifa/worldcup/v1/matches?year=2026";
+const DAILY_LIMIT = 100;
+const INTERVAL = 15 * 60 * 1000;
 
-// Proxy list with priority — auto mode tries them in order
-// Each entry: { name, buildUrl(apiUrl, apiKey) }
-const PROXIES = [
-  {
-    name: "corsproxy.io",
-    build: () => `https://corsproxy.io/?${encodeURIComponent(API_URL)}`,
-    parseResponse: async r => { const j = await r.json(); return j.matches || []; },
-    headers: { "x-requested-with": "XMLHttpRequest" }
-  },
-  {
-    name: "allorigins.win",
-    build: () => `https://api.allorigins.win/get?url=${encodeURIComponent(API_URL + '?X-Auth-Token=' + API_KEY)}`,
-    parseResponse: async r => { const j = await r.json(); const d = JSON.parse(j.contents); return d.matches || []; },
-    headers: {}
-  },
-  {
-    name: "cors.x2u.in",
-    build: () => `https://cors.x2u.in/${API_URL}`,
-    parseResponse: async r => { const j = await r.json(); return j.matches || []; },
-    headers: { "X-Auth-Token": API_KEY }
-  }
-];
+let fetchCount = 0;
+let cachedData = null;
+let syncTimer = null;
+let currentMode = "auto";
 
-let currentMode   = "auto";
-let cfWorkerUrl   = "";       // user's custom Cloudflare Worker URL
-let workingProxy  = null;     // cache successful proxy index
-let pollingTimer  = null;
+/* ── UI helpers ── */
+const $dot = () => document.getElementById("syncDot");
+const $lbl = () => document.getElementById("syncLabel");
+const $st  = () => document.getElementById("apiStatus");
 
-// ── UI helpers ──
-const $dot    = () => document.getElementById("syncDot");
-const $label  = () => document.getElementById("syncLabel");
-const $status = () => document.getElementById("apiStatusLine");
-const $log    = () => document.getElementById("proxyLog");
+function setDot(s) { $dot().className = "sync-dot"+(s?" "+s:""); }
+function setSt(t,c="") { const e=$st(); e.textContent=t; e.className="api-status"+(c?" "+c:""); }
 
-function setDot(state) { // "live" | "syncing" | "error" | ""
-  const d = $dot();
-  d.className = "sync-dot" + (state ? " " + state : "");
-}
-
-function setStatus(text, cls = "") {
-  const el = $status();
-  el.textContent = text;
-  el.className = "api-status-line" + (cls ? " " + cls : "");
-}
-
-function addLog(text, cls = "") {
-  const log = $log();
-  log.classList.add("visible");
-  const line = document.createElement("div");
-  line.className = "proxy-log-line" + (cls ? " " + cls : "");
-  line.textContent = `[${new Date().toLocaleTimeString("zh-HK")}] ${text}`;
-  log.prepend(line);
-  // keep max 20 lines
-  while (log.children.length > 20) log.removeChild(log.lastChild);
-}
-
-function setMode(mode) {
-  currentMode = mode;
-  ["auto","cf","mock"].forEach(m =>
-    document.getElementById("tab-" + m).classList.toggle("active", m === mode)
-  );
-  document.getElementById("cfInfo").classList.toggle("visible", mode === "cf");
-  $log().classList.toggle("visible", mode === "auto" || mode === "cf");
-
-  // Reset cached proxy on mode switch
-  workingProxy = null;
-
-  clearInterval(pollingTimer);
-  poll();
-  pollingTimer = setInterval(poll, INTERVAL);
-}
-
-function saveCfUrl() {
-  const input = document.getElementById("cfUrlInput");
-  cfWorkerUrl = input.value.trim().replace(/\/$/, "");
-  if (!cfWorkerUrl) {
-    setStatus("⚠️ 請輸入有效的 Cloudflare Worker URL", "warn");
+/* ── Fetch ── */
+async function doFetch() {
+  if(fetchCount >= DAILY_LIMIT) {
+    setSt(`⛔ 今日已達 ${DAILY_LIMIT} 次上限，明日重置。${cachedData?"顯示快取數據。":""}`,"warn");
+    setDot("error"); $lbl().textContent="已達上限";
+    if(cachedData) updateScores(cachedData);
     return;
   }
-  addLog("CF Worker URL 已儲存：" + cfWorkerUrl, "ok");
-  poll();
-}
-
-// ── Fetch via a single proxy entry ──
-async function fetchViaProxy(proxy) {
-  const url = proxy.build();
-  const opts = { headers: proxy.headers || {}, signal: AbortSignal.timeout(8000) };
-  const resp = await fetch(url, opts);
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  return await proxy.parseResponse(resp);
-}
-
-// ── Fetch via user's Cloudflare Worker ──
-async function fetchViaCfWorker() {
-  if (!cfWorkerUrl) throw new Error("尚未設定 CF Worker URL");
-  const resp = await fetch(cfWorkerUrl, { signal: AbortSignal.timeout(8000) });
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  const data = await resp.json();
-  return data.matches || [];
-}
-
-// ── Main poll ──
-async function poll() {
-  setDot("syncing");
-  $label().textContent = "同步中...";
-
+  setDot("syncing"); $lbl().textContent="同步中...";
   try {
-    let fixtures = [];
-
-    if (currentMode === "mock") {
-      fixtures = mockData();
-      setDot("live");
-      $label().textContent = "模擬 " + new Date().toLocaleTimeString("zh-HK");
-      setStatus("🧪 模擬模式：顯示隨機測試比分（非真實數據）", "warn");
-      updateScores(fixtures);
-      return;
-    }
-
-    if (currentMode === "cf") {
-      fixtures = await fetchViaCfWorker();
-      setDot("live");
-      $label().textContent = "CF ✓ " + new Date().toLocaleTimeString("zh-HK");
-      setStatus("✅ Cloudflare Worker 連接成功", "ok");
-      addLog("CF Worker 成功", "ok");
-      updateScores(fixtures);
-      return;
-    }
-
-    // ── Auto mode: try cached proxy first, then cycle ──
-    if (workingProxy !== null) {
-      try {
-        fixtures = await fetchViaProxy(PROXIES[workingProxy]);
-        setDot("live");
-        $label().textContent = `${PROXIES[workingProxy].name} ✓ ${new Date().toLocaleTimeString("zh-HK")}`;
-        setStatus(`✅ 已連接：${PROXIES[workingProxy].name}`, "ok");
-        updateScores(fixtures);
-        return;
-      } catch (e) {
-        addLog(`快取 Proxy "${PROXIES[workingProxy].name}" 失效，重新嘗試所有...`, "fail");
-        workingProxy = null;
-      }
-    }
-
-    // Try all proxies in sequence
-    let lastErr = null;
-    for (let i = 0; i < PROXIES.length; i++) {
-      const p = PROXIES[i];
-      addLog(`嘗試 [${i+1}/${PROXIES.length}] ${p.name} ...`, "try");
-      try {
-        fixtures = await fetchViaProxy(p);
-        workingProxy = i;
-        setDot("live");
-        $label().textContent = `${p.name} ✓ ${new Date().toLocaleTimeString("zh-HK")}`;
-        setStatus(`✅ 成功連接（${p.name}）`, "ok");
-        addLog(`✓ 成功：${p.name}`, "ok");
-        updateScores(fixtures);
-        return;
-      } catch (err) {
-        lastErr = err;
-        addLog(`✗ 失敗：${p.name} — ${err.message}`, "fail");
-      }
-    }
-
-    // All proxies failed
-    throw lastErr || new Error("所有 Proxy 均失敗");
-
-  } catch (err) {
-    setDot("error");
-    $label().textContent = "同步失敗";
-    setStatus(`❌ 無法獲取數據：${err.message}。請切換至「☁️ CF Worker」模式或「🧪 模擬」模式。`, "fail");
-    addLog("所有嘗試失敗：" + err.message, "fail");
+    const r = await fetch(API_URL, {
+      headers:{"X-API-Key":API_KEY},
+      signal:AbortSignal.timeout(10000)
+    });
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const j = await r.json();
+    const matches = j.data||[];
+    if(!matches.length) throw new Error("空數據");
+    fetchCount++;
+    cachedData = matches;
+    updateScores(matches);
+    setDot("live");
+    $lbl().textContent=`已同步 ${new Date().toLocaleTimeString("zh-HK")}`;
+    setSt(`✅ 同步 ${matches.length} 場 · 今日第 ${fetchCount}/${DAILY_LIMIT} 次`,"ok");
+    document.getElementById("quotaInfo").textContent=`今日已用 ${fetchCount}/${DAILY_LIMIT} 次 · 每15分鐘自動更新`;
+  } catch(e) {
+    setDot("error"); $lbl().textContent="同步失敗";
+    setSt(`❌ ${e.message} ${cachedData?"(顯示快取)":""}`, "fail");
+    if(cachedData) updateScores(cachedData);
   }
 }
 
-// ── Apply scores to DOM ──
-function updateScores(matches) {
-  Object.entries(ID_MAP).forEach(([myId, apiId]) => {
-    const match = matches.find(m => m.id === apiId);
-    const el = document.getElementById("sc-" + myId);
-    if (!el || !match) return;
-
-    const { status } = match;
-    const home = match.score?.fullTime?.home;
-    const away = match.score?.fullTime?.away;
-
-    if (status === "TIMED" || status === "SCHEDULED" || home == null) {
-      el.innerHTML = `<span style="color:var(--muted)">— : —</span>`;
-      return;
+/* ── 更新比分 ── */
+function updateScores(data) {
+  // 當 API 真實返回數據時，用 id/matchNumber 對應
+  data.forEach(m => {
+    const myId = `M${String(m.matchNumber||m.id||"").padStart(2,"0")}`;
+    const el = document.getElementById("sc-"+myId);
+    if(!el) return;
+    const h = m.homeScore, a = m.awayScore;
+    const status = (m.status||"").toLowerCase();
+    const min = m.liveMinute;
+    if(h===null||h===undefined) {
+      el.innerHTML=`<span style="color:var(--muted)">— : —</span>`; return;
     }
-
-    const scoreHtml = `<span>${home} : ${away}</span>`;
-
-    if (status === "IN_PLAY" || status === "PAUSED") {
-      el.style.color = "var(--accent)";
-      el.innerHTML = `${scoreHtml} <span class="live-tag">LIVE</span>`;
-    } else if (status === "FINISHED") {
-      el.style.color = "var(--success)";
-      el.innerHTML = `${scoreHtml} <span class="ft-tag">FT</span>`;
+    if(status==="finished") {
+      el.style.color="var(--success)";
+      el.innerHTML=`<span>${h} : ${a}</span><span class="fttag">FT</span>`;
+    } else if(min!=null) {
+      el.style.color="var(--accent)";
+      el.innerHTML=`<span>${h} : ${a}</span><span class="ltag">${min}'</span>`;
     } else {
-      el.style.color = "var(--accent)";
-      el.innerHTML = scoreHtml;
+      el.style.color="var(--accent)";
+      el.innerHTML=`<span>${h} : ${a}</span>`;
     }
   });
 }
 
-// ── Mock data ──
-function mockData() {
-  return [
-    { id:1154320, status:"IN_PLAY",  score:{ fullTime:{ home: Math.floor(Math.random()*4), away: Math.floor(Math.random()*4) }}},
-    { id:1154321, status:"TIMED",    score:{ fullTime:{ home:null, away:null }}},
-    { id:1154322, status:"FINISHED", score:{ fullTime:{ home:2, away:1 }}}
-  ];
+/* ── 模擬模式 ── */
+function runMock() {
+  setDot("live"); $lbl().textContent="模擬 "+new Date().toLocaleTimeString("zh-HK");
+  setSt("🧪 模擬模式（測試用，非真實比分）","warn");
+  // 顯示今日已完成賽事模擬比分
+  [
+    {id:"sc-M01",h:2,a:0,s:"finished"},
+    {id:"sc-M02",h:1,a:1,s:"finished"},
+    {id:"sc-M03",h:null,a:null,s:"scheduled"},
+    {id:"sc-M04",h:null,a:null,s:"scheduled"},
+  ].forEach(f=>{
+    const el=document.getElementById(f.id);
+    if(!el) return;
+    if(f.h===null){el.innerHTML=`<span style="color:var(--muted)">— : —</span>`;return;}
+    if(f.s==="finished"){el.style.color="var(--success)";el.innerHTML=`<span>${f.h} : ${f.a}</span><span class="fttag">FT</span>`;}
+    else{const r1=Math.floor(Math.random()*4),r2=Math.floor(Math.random()*4);el.style.color="var(--accent)";el.innerHTML=`<span>${r1} : ${r2}</span><span class="ltag">LIVE</span>`;}
+  });
 }
 
-// ── Init ──
-document.addEventListener("DOMContentLoaded", () => {
+/* ── 模式切換 ── */
+function setMode(mode) {
+  currentMode=mode;
+  ["auto","mock"].forEach(m=>document.getElementById("tab-"+m).classList.toggle("active",m===mode));
+  clearInterval(syncTimer);
+  if(mode==="auto") startSync();
+  else runMock();
+}
+
+function startSync() {
+  doFetch();
+  syncTimer = setInterval(()=>{
+    if(currentMode!=="auto"||fetchCount>=DAILY_LIMIT) return;
+    doFetch();
+  }, INTERVAL);
+}
+
+function manualRefresh() {
+  if(currentMode!=="auto"){setMode("auto");return;}
+  const b=document.getElementById("btnRefresh");
+  b.disabled=true;
+  doFetch().finally(()=>setTimeout(()=>b.disabled=false,3000));
+}
+
+/* ── 啟動 ── */
+document.addEventListener("DOMContentLoaded",()=>{
   buildCards();
-  // Default: auto mode active
-  document.getElementById("tab-auto").classList.add("active");
-  setStatus("⚡ 自動模式：依序嘗試多個免費 CORS Proxy，自動選擇最快連線...");
-  setTimeout(() => {
-    poll();
-    pollingTimer = setInterval(poll, INTERVAL);
-  }, 800);
+  setSt("⚡ 即時模式：Zafronix API，每15分鐘同步，每日上限100次");
+  setTimeout(startSync, 500);
 });
 
-// ── Service Worker (PWA offline) ──
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () =>
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("[SW] OK"))
-      .catch(e => console.warn("[SW]", e))
-  );
-}
+if("serviceWorker" in navigator)
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js")
+    .then(()=>console.log("[SW] OK")).catch(e=>console.warn("[SW]",e)));
 </script>
 </body>
 </html>

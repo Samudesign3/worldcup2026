@@ -1,0 +1,26 @@
+{
+  "name": "2026 世界盃賽程 HKT",
+  "short_name": "世界盃2026",
+  "description": "2026 美加墨世界盃完整賽程即時比分 (香港時間 HKT)",
+  "start_url": "./worldcup-2026.html",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "orientation": "portrait-primary",
+  "lang": "zh-HK",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230F172A' rx='32'/%3E%3Ctext x='96' y='135' text-anchor='middle' font-size='115' font-family='system-ui'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230F172A' rx='80'/%3E%3Ctext x='256' y='360' text-anchor='middle' font-size='310' font-family='system-ui'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "utilities"]
+}
