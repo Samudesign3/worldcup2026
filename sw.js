@@ -1,5 +1,5 @@
 const CACHE = "wc2026-v3";
-const PRECACHE = ["./worldcup-2026.html", "./manifest.json"];
+const PRECACHE = ["./index.html", "./manifest.json"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -33,3 +33,26 @@ self.addEventListener("fetch", e => {
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
 });
+
+function init() {
+  buildGroupTabs();
+  document.getElementById('quota').textContent = MAX - getQ();
+  renderAll();
+  setStatus('靜態資料已就緒', '#a080ea');
+
+  let fetched = false;
+  function doFetch() {
+    if (fetched) return; fetched = true;
+    fetchAll();
+    fetchStandings();
+    fetchRSS();
+  }
+  setTimeout(doFetch, 800);
+  
+  // ← 加在這裡
+  window.addEventListener('online', () => fetchAll());
+  
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && !fetched) doFetch();
+  });
+}

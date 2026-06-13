@@ -2,7 +2,7 @@
   "name": "2026 世界盃賽程 HKT",
   "short_name": "世界盃2026",
   "description": "2026 美加墨世界盃完整賽程即時比分 (香港時間 HKT)",
-  "start_url": "./worldcup-2026.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0F172A",
   "theme_color": "#0F172A",
