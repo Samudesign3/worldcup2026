@@ -510,7 +510,6 @@ function mergeApi(data){
       apiScores[m.id]={homeScore:m.homeScore,awayScore:m.awayScore,status:m.status,liveMinute:m.liveMinute};
     }
     const sm=MATCHES.find(s=>s.id===m.id);
-    if(sm&&m.homeTeam&&!/^第|^[A-L]組/.test(m.homeTeam)){ sm.home=m.homeTeam; sm.away=m.awayTeam||sm.away; }
   });
 }
 
