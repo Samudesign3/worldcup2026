@@ -508,14 +508,13 @@ function mergeApi(data){
   data.forEach(m=>{
     if(m.homeScore!=null||m.awayScore!=null||m.status){
       apiScores[m.id]={homeScore:m.homeScore,awayScore:m.awayScore,status:m.status,liveMinute:m.liveMinute};
-    }
-    const sm=MATCHES.find(s=>s.id===m.id);
+    }  
   });
 }
 
 /* ─── STANDINGS ─── */
 function renderStandings(groups){
-  const show=['A','B','C','D'];
+  const show = ['A','B','C','D','E','F','G','H','I','J','K','L'];
   let html='';
   show.forEach(g=>{
     if(!groups[g]) return;
