@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="2026 美加墨世界盃完整賽程即時比分 香港時間HKT">
-<title>2026 世界盃賽程 HKT</title>
+<meta name="description" content="2026 FIFA 世界盃完整賽程即時比分 香港時間">
+<title>2026 世界盃 · HKT</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#0F172A">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,192 +30,137 @@ img{display:block;max-width:100%;height:auto}
 button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
 a{color:inherit;text-decoration:none}
 
-/* Shimmer */
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .sk{background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;border-radius:var(--r-sm)}
-
-/* Live pulse */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .live-dot{display:inline-block;width:7px;height:7px;background:var(--live);border-radius:50%;animation:pulse 1.2s ease-in-out infinite;margin-right:4px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* HEADER */
-header{
-  position:sticky;top:0;z-index:200;
-  background:rgba(15,23,42,.94);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  padding:10px 16px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-icon{font-size:1.5rem;line-height:1}
-.logo-text{font-family:var(--fd);font-size:clamp(1rem,3vw,1.4rem);letter-spacing:.05em;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header{position:sticky;top:0;z-index:200;background:rgba(15,23,42,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{font-size:1.4rem;line-height:1}
+.logo-text{font-family:var(--fd);font-size:clamp(1rem,3vw,1.35rem);letter-spacing:.06em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.api-pill{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);
-  background:var(--card);padding:4px 10px;border-radius:var(--r-sm);border:1px solid var(--border);white-space:nowrap}
+.api-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--card);padding:4px 10px;border-radius:var(--r-sm);border:1px solid var(--border);white-space:nowrap}
+#api-dot{font-size:8px}
 #quota{color:var(--accent);font-weight:700}
-.btn-refresh{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;padding:6px 12px;border-radius:var(--r-sm);transition:opacity .18s;white-space:nowrap}
-.btn-refresh:hover{opacity:.85}
-.btn-refresh svg{width:13px;height:13px}
-.btn-refresh.loading svg{animation:spin .7s linear infinite}
+.btn-ref{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:6px 12px;border-radius:var(--r-sm);transition:opacity .18s;white-space:nowrap}
+.btn-ref:hover{opacity:.85}
+.btn-ref svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5}
+.btn-ref.loading svg{animation:spin .7s linear infinite}
 
-/* NAV TABS */
-.nav-tabs{
-  display:flex;align-items:center;gap:4px;
-  padding:10px 16px;overflow-x:auto;scrollbar-width:none;
-  border-bottom:1px solid var(--border);background:rgba(15,23,42,.7);
-  position:sticky;top:53px;z-index:100;backdrop-filter:blur(12px);
-}
+/* NAV */
+.nav-tabs{display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);background:rgba(15,23,42,.7);position:sticky;top:53px;z-index:100;backdrop-filter:blur(12px)}
 .nav-tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:6px 14px;border-radius:var(--r-sm);font-size:12px;
-  color:var(--muted);border:1px solid transparent;transition:all .16s;white-space:nowrap;font-weight:500}
+.tab{flex-shrink:0;padding:5px 13px;border-radius:var(--r-sm);font-size:12px;color:var(--muted);border:1px solid transparent;transition:all .16s;white-space:nowrap;font-weight:500}
 .tab:hover{color:var(--text);background:var(--card)}
 .tab.on{color:#fff;background:var(--card2);border-color:var(--border);font-weight:700}
-.tab[data-g]{border-left-width:3px;border-left-style:solid;border-left-color:var(--gc,var(--faint))}
+.tab[data-g]{border-left:3px solid var(--gc,var(--faint))}
 
 /* LAYOUT */
-main{max-width:1200px;margin:0 auto;padding:20px 16px;
-  display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
-@media(max-width:900px){main{grid-template-columns:1fr;padding:14px 12px;padding-bottom:80px}}
+main{max-width:1200px;margin:0 auto;padding:18px 16px;display:grid;grid-template-columns:1fr 290px;gap:20px;align-items:start}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:12px;padding-bottom:80px}}
 
-/* SECTION HEAD */
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.sec-title{font-family:var(--fd);font-size:clamp(1rem,2.5vw,1.3rem);letter-spacing:.08em}
-.count-badge{font-size:11px;color:var(--muted);background:var(--card);
-  padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--border)}
+/* SECTION */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-family:var(--fd);font-size:clamp(1rem,2.5vw,1.25rem);letter-spacing:.08em}
+.count-badge{font-size:11px;color:var(--muted);background:var(--card);padding:3px 9px;border-radius:var(--r-sm);border:1px solid var(--border)}
 
 /* DATE GROUP */
-.dg{margin-bottom:24px}
-.date-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.1em;padding:6px 0;margin-bottom:10px;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.dg{margin-bottom:22px}
+.date-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:5px 0;margin-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
 .date-lbl.today{color:var(--accent)}
 
 /* MATCH CARD */
-.mc{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);
-  padding:14px 16px 10px;margin-bottom:10px;
-  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;
-  position:relative;overflow:hidden;transition:background .16s,box-shadow .16s;
-}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px 9px;margin-bottom:9px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;position:relative;overflow:hidden;transition:background .16s,box-shadow .16s;cursor:default}
 .mc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gc,var(--faint))}
-.mc:hover{background:var(--card2);box-shadow:0 4px 20px rgba(0,0,0,.25)}
-.mc.live{border-color:rgba(34,197,94,.3);box-shadow:0 0 0 1px rgba(34,197,94,.12)}
+.mc:hover{background:var(--card2);box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.mc.live{border-color:rgba(34,197,94,.3);box-shadow:0 0 0 1px rgba(34,197,94,.1)}
 .mc.live::before{background:var(--live)}
-.mc.done{opacity:.72}
+.mc.done{opacity:.7}
 
-/* Team block */
-.tb{display:flex;flex-direction:column;align-items:flex-end;gap:5px;text-align:right}
+/* TEAM BLOCK */
+.tb{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right}
 .tb.away{align-items:flex-start;text-align:left}
 @media(max-width:400px){.tb,.tb.away{align-items:center;text-align:center}}
-.flag{width:38px;height:26px;border-radius:3px;object-fit:cover;background:var(--card2);flex-shrink:0}
-.tname{font-size:13px;font-weight:600;color:var(--text);max-width:110px;word-break:keep-all;line-height:1.3}
+.flag{width:36px;height:24px;border-radius:3px;object-fit:cover;background:var(--card2);flex-shrink:0}
+.tname{font-size:13px;font-weight:600;color:var(--text);max-width:105px;word-break:keep-all;line-height:1.3}
+.tname.placeholder{color:var(--muted);font-size:11px;font-weight:500}
 
-/* Score */
-.sc{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:78px}
-.score{font-family:var(--fd);font-size:clamp(1.3rem,3.5vw,1.9rem);letter-spacing:.06em;line-height:1}
-.score.empty{font-family:var(--fb);font-size:13px;font-weight:700;color:var(--accent)}
+/* SCORE CENTER */
+.sc{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:76px}
+.score{font-family:var(--fd);font-size:clamp(1.25rem,3.5vw,1.85rem);letter-spacing:.06em;line-height:1}
+.score.vs{font-family:var(--fb);font-size:13px;font-weight:700;color:var(--accent)}
 .mtime{font-size:11px;color:var(--muted)}
-.badge{font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.badge{font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 6px;border-radius:3px;text-transform:uppercase}
 .b-live{background:rgba(34,197,94,.15);color:var(--live)}
 .b-ft{background:rgba(148,163,184,.1);color:var(--muted)}
 .b-draw{background:rgba(245,158,11,.12);color:var(--draw)}
+.b-pen{background:rgba(160,128,234,.15);color:var(--accent)}
 
-/* Card footer */
-.mc-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:6px;margin-top:6px;padding-top:7px;border-top:1px solid var(--border)}
-.stage-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;
-  background:color-mix(in srgb,var(--gc,var(--faint)) 15%,transparent);
-  color:var(--gc,var(--muted));
-  border:1px solid color-mix(in srgb,var(--gc,var(--faint)) 28%,transparent);white-space:nowrap}
-.meta-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.meta-item{font-size:10px;color:var(--faint);display:flex;align-items:center;gap:3px}
-.tv-chip{font-size:10px;color:var(--muted);background:rgba(160,128,234,.1);
-  border:1px solid rgba(160,128,234,.2);padding:2px 7px;border-radius:3px;white-space:nowrap}
+/* CARD FOOTER */
+.mc-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.stage-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;background:color-mix(in srgb,var(--gc,var(--faint)) 14%,transparent);color:var(--gc,var(--muted));border:1px solid color-mix(in srgb,var(--gc,var(--faint)) 25%,transparent);white-space:nowrap}
+.meta-r{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.meta-item{font-size:10px;color:var(--faint);display:flex;align-items:center;gap:2px}
+.tv-chip{font-size:10px;padding:2px 6px;border-radius:3px;white-space:nowrap;border:1px solid}
 .viu{background:rgba(242,94,139,.1);border-color:rgba(242,94,139,.25);color:#f25e8b}
-.now-tv{background:rgba(0,82,255,.1);border-color:rgba(0,82,255,.25);color:#6699ff}
+.now{background:rgba(0,82,255,.1);border-color:rgba(0,82,255,.25);color:#6699ff}
 
 /* SIDEBAR */
-.sidebar{display:flex;flex-direction:column;gap:16px}
+.sidebar{display:flex;flex-direction:column;gap:14px}
 .panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
-.ph{display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-bottom:1px solid var(--border)}
-.ph-title{font-family:var(--fd);font-size:1rem;letter-spacing:.08em;
-  display:flex;align-items:center;gap:6px}
-.gdot{width:9px;height:9px;border-radius:50%}
+.ph{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid var(--border);font-family:var(--fd);font-size:.95rem;letter-spacing:.07em}
+.gdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
-/* Standings table */
+/* STANDINGS */
 .stb{width:100%;border-collapse:collapse}
-.stb th{font-size:10px;color:var(--faint);font-weight:700;text-transform:uppercase;
-  letter-spacing:.06em;padding:6px 10px;text-align:center}
+.stb th{font-size:10px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 9px;text-align:center}
 .stb th:first-child{text-align:left}
-.stb td{font-size:11px;padding:6px 10px;text-align:center;border-top:1px solid var(--border)}
+.stb td{font-size:11px;padding:5px 9px;text-align:center;border-top:1px solid var(--border)}
 .stb td:first-child{text-align:left}
 .stb .pts{font-weight:700;color:var(--accent)}
-.tcell{display:flex;align-items:center;gap:6px}
-.fsm{width:20px;height:14px;border-radius:2px;object-fit:cover;background:var(--card2)}
-.adv td:first-child .tname-sm::after{content:'↑';font-size:9px;color:var(--live);margin-left:3px}
+.tcell{display:flex;align-items:center;gap:5px}
+.fsm{width:18px;height:13px;border-radius:2px;object-fit:cover;background:var(--card2);flex-shrink:0}
+.adv td:first-child .tcell::after{content:'↑';font-size:9px;color:var(--live);margin-left:2px}
 
-/* RSS FEED */
+/* RSS */
 #rss-news-feed{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
-.rss-hdr{padding:10px 14px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;
-  font-family:var(--fd);font-size:1rem;letter-spacing:.06em}
-.rss-icon{width:16px;height:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rss-list{list-style:none;padding:0;margin:0}
-.rss-item{padding:10px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.rss-hdr{padding:9px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-family:var(--fd);font-size:.95rem;letter-spacing:.07em}
+.rss-icon{width:15px;height:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rss-list{list-style:none}
+.rss-item{padding:9px 13px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
 .rss-item:first-child{border-top:none}
-.rss-item a{color:var(--text);font-size:12px;font-weight:500;line-height:1.4;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rss-item a{color:var(--text);font-size:12px;font-weight:500;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .rss-item a:hover{color:var(--accent)}
 .rss-item time{font-size:10px;color:var(--faint)}
-.rss-source{font-size:10px;color:var(--faint);background:var(--card2);
-  padding:1px 6px;border-radius:3px;width:fit-content}
-.rss-empty{padding:32px 16px;text-align:center;color:var(--faint)}
-.rss-empty .icon{font-size:1.8rem;margin-bottom:8px}
-.rss-empty p{font-size:12px;margin-top:4px}
-/* RSS loading state */
-.rss-loading{padding:24px;display:flex;flex-direction:column;gap:10px}
-.rss-sk-line{height:12px;border-radius:3px}
-.rss-sk-short{height:10px;width:60%;border-radius:3px}
+.rss-source{font-size:10px;color:var(--faint);background:var(--card2);padding:1px 5px;border-radius:3px;width:fit-content}
+.rss-empty{padding:28px 14px;text-align:center;color:var(--faint);font-size:12px}
 
-/* EMPTY STATE */
-.empty{display:flex;flex-direction:column;align-items:center;text-align:center;
-  padding:60px 24px;color:var(--muted)}
-.empty .icon{font-size:2.5rem;margin-bottom:12px}
-.empty h3{color:var(--text);font-size:15px;margin-bottom:6px}
-.empty p{font-size:13px;max-width:28ch}
+/* EMPTY */
+.empty-state{display:flex;flex-direction:column;align-items:center;text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-state .ico{font-size:2.2rem;margin-bottom:10px}
+.empty-state h3{color:var(--text);font-size:14px;margin-bottom:5px}
+.empty-state p{font-size:12px;max-width:26ch}
 
-/* SKELETON CARD */
-.sk-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);
-  padding:14px 16px;margin-bottom:10px;
-  display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
-.sk-t{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+/* SKELETON */
+.sk-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;margin-bottom:9px;display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.sk-t{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
 .sk-t.r{align-items:flex-start}
-.sk-flag{width:38px;height:26px;border-radius:3px}
-.sk-name{height:13px;width:75px;border-radius:3px}
-.sk-score{width:65px;height:28px;border-radius:4px}
+.sk-flag{width:36px;height:24px;border-radius:3px}
+.sk-name{height:12px;width:70px;border-radius:3px}
+.sk-score{width:60px;height:26px;border-radius:4px}
 
-/* BOTTOM BAR */
-.bot-bar{display:none;position:fixed;bottom:0;left:0;right:0;
-  background:rgba(15,23,42,.96);backdrop-filter:blur(16px);
-  border-top:1px solid var(--border);
-  padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:200;gap:2px}
+/* BOTTOM NAV */
+.bot-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.96);backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:200;gap:2px}
 @media(max-width:600px){.bot-bar{display:flex}}
-.bot-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:6px 4px;border-radius:var(--r-sm);font-size:10px;color:var(--muted);
-  transition:color .16s,background .16s}
+.bot-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 4px;border-radius:var(--r-sm);font-size:10px;color:var(--muted);transition:color .16s,background .16s}
 .bot-tab.on{color:var(--accent);background:rgba(160,128,234,.1)}
-.bot-tab svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
+.bot-tab svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* UTILITIES */
 .hidden{display:none!important}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -228,352 +173,380 @@ main{max-width:1200px;margin:0 auto;padding:20px 16px;
   <div class="hdr-right">
     <div class="api-pill">
       <span id="api-dot" style="color:var(--faint)">●</span>
-      <span id="upd">載入中…</span>
+      <span id="upd-msg">載入中…</span>
       <span style="color:var(--faint)">│</span>
-      剩餘 <span id="quota">—</span>
+      餘<span id="quota">—</span>次
     </div>
-    <button class="btn-refresh" id="btn-ref" onclick="manualRefresh()">
-      <svg id="ref-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
-      </svg>
-      更新
+    <button class="btn-ref" id="btn-ref" onclick="manualRefresh()" aria-label="手動更新">
+      <svg id="ref-ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>更新
     </button>
   </div>
 </header>
 
-<nav class="nav-tabs" id="navtabs">
-  <button class="tab on" onclick="sw('all',this)">全部</button>
-  <button class="tab" onclick="sw('live',this)">🔴 即時</button>
-  <button class="tab" onclick="sw('today',this)">📅 今日</button>
-  <button class="tab" onclick="sw('group',this)">小組賽</button>
-  <button class="tab" onclick="sw('ko',this)">淘汰賽</button>
+<nav class="nav-tabs" id="navtabs" role="tablist">
+  <button class="tab on" onclick="sw('all',this)" role="tab">全部</button>
+  <button class="tab" onclick="sw('live',this)" role="tab">🔴 即時</button>
+  <button class="tab" onclick="sw('today',this)" role="tab">📅 今日</button>
+  <button class="tab" onclick="sw('group',this)" role="tab">小組賽</button>
+  <button class="tab" onclick="sw('ko',this)" role="tab">淘汰賽</button>
 </nav>
 
 <main>
-  <section>
+  <section aria-label="賽事列表">
     <div class="sec-head">
       <span class="sec-title" id="sec-title">所有賽事</span>
-      <span class="count-badge" id="cnt">104 場賽事</span>
+      <span class="count-badge" id="cnt">104 場</span>
     </div>
-    <div id="mlist">
-      <div style="height:13px;width:130px;margin-bottom:14px" class="sk"></div>
+    <div id="mlist" role="list">
+      <div style="height:12px;width:120px;margin-bottom:12px" class="sk"></div>
       <div class="sk-card"><div class="sk-t"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div><div class="sk-score sk"></div><div class="sk-t r"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div></div>
       <div class="sk-card"><div class="sk-t"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div><div class="sk-score sk"></div><div class="sk-t r"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div></div>
       <div class="sk-card"><div class="sk-t"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div><div class="sk-score sk"></div><div class="sk-t r"><div class="sk-flag sk"></div><div class="sk-name sk"></div></div></div>
     </div>
   </section>
 
-  <aside class="sidebar">
+  <aside class="sidebar" aria-label="側邊欄">
     <div id="standings-wrap">
-      <div class="panel" style="padding:28px 16px;text-align:center;color:var(--faint);font-size:12px">
-        積分榜更新中…
-      </div>
+      <div class="panel" style="padding:22px 14px;text-align:center;color:var(--faint);font-size:12px">積分榜更新中…</div>
     </div>
-    <div id="rss-news-feed">
+    <div id="rss-news-feed" role="complementary" aria-label="新聞快訊">
       <div class="rss-hdr">
-        <div class="rss-icon">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
-            <circle cx="6" cy="18" r="3"/>
-            <path d="M4 4a16 16 0 0 1 16 16" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M4 10a10 10 0 0 1 10 10" stroke="white" stroke-width="2" fill="none"/>
-          </svg>
-        </div>
-        新聞快訊
+        <div class="rss-icon" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="white"><circle cx="6" cy="18" r="3"/><path d="M4 4a16 16 0 0 1 16 16" stroke="white" stroke-width="2" fill="none"/><path d="M4 10a10 10 0 0 1 10 10" stroke="white" stroke-width="2" fill="none"/></svg>
+        </div>新聞快訊
       </div>
       <div id="rss-body">
-        <div class="rss-empty">
-          <div class="icon">📡</div>
-          <p>RSS 新聞源待接入</p>
-          <p style="font-size:10px;margin-top:4px;color:var(--faint)">配置 RSS_FEED_URL 後自動顯示</p>
-        </div>
+        <div class="rss-empty">📡 配置 RSS_FEED_URL 後自動顯示</div>
       </div>
     </div>
   </aside>
 </main>
 
-<nav class="bot-bar">
-  <button class="bot-tab on" onclick="sw('all',this);setBot(this)">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    全部
+<nav class="bot-bar" aria-label="底部導航">
+  <button class="bot-tab on" onclick="sw('all',this);setBot(this)" aria-label="全部">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>全部
   </button>
-  <button class="bot-tab" onclick="sw('live',this);setBot(this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>
-    即時
+  <button class="bot-tab" onclick="sw('live',this);setBot(this)" aria-label="即時">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>即時
   </button>
-  <button class="bot-tab" onclick="sw('today',this);setBot(this)">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    今日
+  <button class="bot-tab" onclick="sw('today',this);setBot(this)" aria-label="今日">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>今日
   </button>
-  <button class="bot-tab" onclick="sw('group',this);setBot(this)">
-    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    小組
+  <button class="bot-tab" onclick="sw('group',this);setBot(this)" aria-label="小組賽">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>小組
   </button>
-  <button class="bot-tab" onclick="sw('ko',this);setBot(this)">
-    <svg viewBox="0 0 24 24"><polyline points="18 8 22 12 18 16"/><polyline points="6 8 2 12 6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-    淘汰
+  <button class="bot-tab" onclick="sw('ko',this);setBot(this)" aria-label="淘汰賽">
+    <svg viewBox="0 0 24 24"><polyline points="18 8 22 12 18 16"/><polyline points="6 8 2 12 6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>淘汰
   </button>
 </nav>
 
 <script>
-/* ─── CONFIG ─── */
-const API  = 'https://api.zafronix.com/fifa/worldcup/v1';
-const KEY  = 'zwc_free_167b5bcc367d0b97e29c7c5c';
-const HDR  = {'X-API-Key': KEY};
-const MAX  = 100;
-const RSS_FEED_URL = ''; /* 配置 RSS Feed URL */
+// ── CONFIG ──
+const API = 'https://api.zafronix.com/fifa/worldcup/v1';
+const KEY = 'zwc_free_167b5bcc367d0b97e29c7c5c';
+const MAX_Q = 100;
+const RSS_FEED_URL = '';
 
-const GC = {
-  A:'#0052FF',B:'#FF5A1F',C:'#00D2C4',D:'#FF007A',
-  E:'#7928CA',F:'#FF9900',G:'#D4ED17',H:'#C5A880',
-  I:'#E0A899',J:'#3A5046',K:'#0A2540',L:'#888888'
-};
+// ── GROUP COLORS ──
+const GC = {A:'#0052FF',B:'#FF5A1F',C:'#00D2C4',D:'#FF007A',E:'#7928CA',
+             F:'#FF9900',G:'#D4ED17',H:'#C5A880',I:'#E0A899',J:'#3A5046',
+             K:'#0A2540',L:'#888888'};
 
-const FLAG = {
-  '墨西哥':'mx','南非':'za','南韓':'kr','捷克':'cz','加拿大':'ca',
-  '波士尼亞與赫塞哥維納':'ba','美國':'us','巴拉圭':'py','卡達':'qa',
-  '瑞士':'ch','巴西':'br','摩洛哥':'ma','海地':'ht','蘇格蘭':'gb-sct',
-  '澳洲':'au','土耳其':'tr','德國':'de','庫拉索':'cw','荷蘭':'nl',
-  '日本':'jp','象牙海岸':'ci','厄瓜多':'ec','瑞典':'se','突尼西亞':'tn',
-  '西班牙':'es','維德角':'cv','比利時':'be','埃及':'eg',
-  '沙烏地阿拉伯':'sa','烏拉圭':'uy','伊朗':'ir','紐西蘭':'nz',
-  '法國':'fr','塞內加爾':'sn','伊拉克':'iq','挪威':'no',
-  '阿根廷':'ar','阿爾及利亞':'dz','奧地利':'at','約旦':'jo',
-  '葡萄牙':'pt','剛果民主共和國':'cd','英格蘭':'gb-eng','克羅埃西亞':'hr',
-  '迦納':'gh','巴拿馬':'pa','烏茲別克':'uz','哥倫比亞':'co'
-};
+// ── EN→CN MAP (for API team name resolution) ──
+const EN_CN = {"Mexico": "墨西哥", "South Africa": "南非", "Korea Republic": "韓國", "Czechia": "捷克", "Canada": "加拿大", "Bosnia and Herzegovina": "波斯尼亞", "USA": "美國", "Paraguay": "巴拉圭", "Qatar": "卡塔爾", "Switzerland": "瑞士", "Brazil": "巴西", "Morocco": "摩洛哥", "Haiti": "海地", "Scotland": "蘇格蘭", "Australia": "澳洲", "Türkiye": "土耳其", "Germany": "德國", "Curaçao": "庫拉索", "Netherlands": "荷蘭", "Japan": "日本", "Côte d'Ivoire": "科特迪瓦", "Ecuador": "厄瓜多爾", "Sweden": "瑞典", "Tunisia": "突尼西亞", "Spain": "西班牙", "Cabo Verde": "佛得角", "Belgium": "比利時", "Egypt": "埃及", "Saudi Arabia": "沙特阿拉伯", "Uruguay": "烏拉圭", "IR Iran": "伊朗", "New Zealand": "新西蘭", "France": "法國", "Senegal": "塞內加爾", "Iraq": "伊拉克", "Norway": "挪威", "Argentina": "阿根廷", "Algeria": "阿爾及利亞", "Austria": "奧地利", "Jordan": "約旦", "Portugal": "葡萄牙", "Congo DR": "剛果民主共和國", "England": "英國", "Croatia": "克羅地亞", "Ghana": "加納", "Panama": "巴拿馬", "Uzbekistan": "烏茲別克", "Colombia": "哥倫比亞", "DR Congo": "剛果民主共和國"};
 
-function flagUrl(n){
-  const iso=FLAG[n]; if(!iso) return '';
-  return `https://flagcdn.com/w40/${iso}.png`;
-}
+// ── FLAG MAP ──
+const FLAG = {"墨西哥": "mx", "南非": "za", "韓國": "kr", "捷克": "cz", "加拿大": "ca", "波斯尼亞": "ba", "美國": "us", "巴拉圭": "py", "卡塔爾": "qa", "瑞士": "ch", "巴西": "br", "摩洛哥": "ma", "海地": "ht", "蘇格蘭": "gb-sct", "澳洲": "au", "土耳其": "tr", "德國": "de", "庫拉索": "cw", "荷蘭": "nl", "日本": "jp", "科特迪瓦": "ci", "厄瓜多爾": "ec", "瑞典": "se", "突尼西亞": "tn", "西班牙": "es", "佛得角": "cv", "比利時": "be", "埃及": "eg", "沙特阿拉伯": "sa", "烏拉圭": "uy", "伊朗": "ir", "新西蘭": "nz", "法國": "fr", "塞內加爾": "sn", "伊拉克": "iq", "挪威": "no", "阿根廷": "ar", "阿爾及利亞": "dz", "奧地利": "at", "約旦": "jo", "葡萄牙": "pt", "剛果民主共和國": "cd", "英格蘭": "gb-eng", "克羅地亞": "hr", "加納": "gh", "巴拿馬": "pa", "烏茲別克": "uz", "哥倫比亞": "co", "英國": "gb-eng"};
 
-/* ─── STATE ─── */
-const MATCHES = [{"id": "2026-001", "no": 1, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-12", "time": "03:00", "home": "墨西哥", "away": "南非", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": 2, "awayScore": 0, "finished": true}, {"id": "2026-002", "no": 2, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-12", "time": "10:00", "home": "南韓", "away": "捷克", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": 2, "awayScore": 1, "finished": true}, {"id": "2026-003", "no": 3, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-13", "time": "03:00", "home": "加拿大", "away": "波士尼亞與赫塞哥維納", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": 1, "awayScore": 1, "finished": true}, {"id": "2026-004", "no": 4, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-13", "time": "09:00", "home": "美國", "away": "巴拉圭", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": 4, "awayScore": 1, "finished": true}, {"id": "2026-005", "no": 5, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-14", "time": "03:00", "home": "卡達", "away": "瑞士", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-006", "no": 6, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-14", "time": "06:00", "home": "巴西", "away": "摩洛哥", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-007", "no": 7, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-14", "time": "09:00", "home": "海地", "away": "蘇格蘭", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-008", "no": 8, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-14", "time": "12:00", "home": "澳洲", "away": "土耳其", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-009", "no": 9, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-15", "time": "01:00", "home": "德國", "away": "庫拉索", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-010", "no": 10, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-15", "time": "04:00", "home": "荷蘭", "away": "日本", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-011", "no": 11, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-15", "time": "07:00", "home": "象牙海岸", "away": "厄瓜多", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-012", "no": 12, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-15", "time": "10:00", "home": "瑞典", "away": "突尼西亞", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-013", "no": 13, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-16", "time": "00:00", "home": "西班牙", "away": "維德角", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-014", "no": 14, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-16", "time": "03:00", "home": "比利時", "away": "埃及", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-015", "no": 15, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-16", "time": "06:00", "home": "沙烏地阿拉伯", "away": "烏拉圭", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-016", "no": 16, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-16", "time": "09:00", "home": "伊朗", "away": "紐西蘭", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-017", "no": 17, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-17", "time": "03:00", "home": "法國", "away": "塞內加爾", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-018", "no": 18, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-17", "time": "06:00", "home": "伊拉克", "away": "挪威", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-019", "no": 19, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-17", "time": "09:00", "home": "阿根廷", "away": "阿爾及利亞", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-020", "no": 20, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-17", "time": "12:00", "home": "奧地利", "away": "約旦", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-021", "no": 21, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-18", "time": "01:00", "home": "葡萄牙", "away": "剛果民主共和國", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-022", "no": 22, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-18", "time": "04:00", "home": "英格蘭", "away": "克羅埃西亞", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-023", "no": 23, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-18", "time": "07:00", "home": "迦納", "away": "巴拿馬", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-024", "no": 24, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-18", "time": "10:00", "home": "烏茲別克", "away": "哥倫比亞", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-025", "no": 25, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-19", "time": "00:00", "home": "捷克", "away": "南非", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-026", "no": 26, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-19", "time": "03:00", "home": "瑞士", "away": "波士尼亞與赫塞哥維納", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-027", "no": 27, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-19", "time": "06:00", "home": "加拿大", "away": "卡達", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-028", "no": 28, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-19", "time": "09:00", "home": "墨西哥", "away": "南韓", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-029", "no": 29, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-20", "time": "03:00", "home": "美國", "away": "澳洲", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-030", "no": 30, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-20", "time": "06:00", "home": "蘇格蘭", "away": "摩洛哥", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-031", "no": 31, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-20", "time": "08:30", "home": "巴西", "away": "海地", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-032", "no": 32, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-20", "time": "11:00", "home": "土耳其", "away": "巴拉圭", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-033", "no": 33, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-21", "time": "01:00", "home": "荷蘭", "away": "瑞典", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-034", "no": 34, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-21", "time": "04:00", "home": "德國", "away": "象牙海岸", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-035", "no": 35, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-21", "time": "08:00", "home": "厄瓜多", "away": "庫拉索", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-036", "no": 36, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-21", "time": "12:00", "home": "突尼西亞", "away": "日本", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-037", "no": 37, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-22", "time": "00:00", "home": "西班牙", "away": "沙烏地阿拉伯", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-038", "no": 38, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-22", "time": "03:00", "home": "比利時", "away": "伊朗", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-039", "no": 39, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-22", "time": "06:00", "home": "烏拉圭", "away": "維德角", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-040", "no": 40, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-22", "time": "09:00", "home": "紐西蘭", "away": "埃及", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-041", "no": 41, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-23", "time": "01:00", "home": "阿根廷", "away": "奧地利", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-042", "no": 42, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-23", "time": "05:00", "home": "法國", "away": "伊拉克", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-043", "no": 43, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-23", "time": "08:00", "home": "挪威", "away": "塞內加爾", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-044", "no": 44, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-23", "time": "11:00", "home": "約旦", "away": "阿爾及利亞", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-045", "no": 45, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-24", "time": "01:00", "home": "葡萄牙", "away": "烏茲別克", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-046", "no": 46, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-24", "time": "04:00", "home": "英格蘭", "away": "迦納", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-047", "no": 47, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-24", "time": "07:00", "home": "巴拿馬", "away": "克羅埃西亞", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-048", "no": 48, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-24", "time": "10:00", "home": "哥倫比亞", "away": "剛果民主共和國", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-049", "no": 49, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-25", "time": "03:00", "home": "瑞士", "away": "加拿大", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-050", "no": 50, "stage_raw": "小組賽 - B組", "stage": "小組賽 B組", "stageKey": "group", "group": "B", "date": "2026-06-25", "time": "03:00", "home": "波士尼亞與赫塞哥維納", "away": "卡達", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-051", "no": 51, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-25", "time": "06:00", "home": "摩洛哥", "away": "海地", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-052", "no": 52, "stage_raw": "小組賽 - C組", "stage": "小組賽 C組", "stageKey": "group", "group": "C", "date": "2026-06-25", "time": "06:00", "home": "蘇格蘭", "away": "巴西", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-053", "no": 53, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-25", "time": "09:00", "home": "南非", "away": "南韓", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-054", "no": 54, "stage_raw": "小組賽 - A組", "stage": "小組賽 A組", "stageKey": "group", "group": "A", "date": "2026-06-25", "time": "09:00", "home": "捷克", "away": "墨西哥", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-055", "no": 55, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-26", "time": "04:00", "home": "庫拉索", "away": "象牙海岸", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-056", "no": 56, "stage_raw": "小組賽 - E組", "stage": "小組賽 E組", "stageKey": "group", "group": "E", "date": "2026-06-26", "time": "04:00", "home": "厄瓜多", "away": "德國", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-057", "no": 57, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-26", "time": "07:00", "home": "突尼西亞", "away": "荷蘭", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-058", "no": 58, "stage_raw": "小組賽 - F組", "stage": "小組賽 F組", "stageKey": "group", "group": "F", "date": "2026-06-26", "time": "07:00", "home": "日本", "away": "瑞典", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-059", "no": 59, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-26", "time": "10:00", "home": "土耳其", "away": "美國", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-060", "no": 60, "stage_raw": "小組賽 - D組", "stage": "小組賽 D組", "stageKey": "group", "group": "D", "date": "2026-06-26", "time": "10:00", "home": "巴拉圭", "away": "澳洲", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-061", "no": 61, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-27", "time": "03:00", "home": "挪威", "away": "法國", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-062", "no": 62, "stage_raw": "小組賽 - I組", "stage": "小組賽 I組", "stageKey": "group", "group": "I", "date": "2026-06-27", "time": "03:00", "home": "塞內加爾", "away": "伊拉克", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-063", "no": 63, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-27", "time": "08:00", "home": "維德角", "away": "沙烏地阿拉伯", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-064", "no": 64, "stage_raw": "小組賽 - H組", "stage": "小組賽 H組", "stageKey": "group", "group": "H", "date": "2026-06-27", "time": "08:00", "home": "烏拉圭", "away": "西班牙", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-065", "no": 65, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-27", "time": "11:00", "home": "紐西蘭", "away": "比利時", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-066", "no": 66, "stage_raw": "小組賽 - G組", "stage": "小組賽 G組", "stageKey": "group", "group": "G", "date": "2026-06-27", "time": "11:00", "home": "埃及", "away": "伊朗", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-067", "no": 67, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-28", "time": "05:00", "home": "巴拿馬", "away": "英格蘭", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-068", "no": 68, "stage_raw": "小組賽 - L組", "stage": "小組賽 L組", "stageKey": "group", "group": "L", "date": "2026-06-28", "time": "05:00", "home": "克羅埃西亞", "away": "迦納", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-069", "no": 69, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-28", "time": "07:30", "home": "哥倫比亞", "away": "葡萄牙", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-070", "no": 70, "stage_raw": "小組賽 - K組", "stage": "小組賽 K組", "stageKey": "group", "group": "K", "date": "2026-06-28", "time": "07:30", "home": "剛果民主共和國", "away": "烏茲別克", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-071", "no": 71, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-28", "time": "10:00", "home": "阿爾及利亞", "away": "奧地利", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 619/617台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-072", "no": 72, "stage_raw": "小組賽 - J組", "stage": "小組賽 J組", "stageKey": "group", "group": "J", "date": "2026-06-28", "time": "10:00", "home": "約旦", "away": "阿根廷", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-073", "no": 73, "stage_raw": "32強淘汰賽 (W73)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-29", "time": "03:00", "home": "A組第二名", "away": "B組第二名", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-074", "no": 74, "stage_raw": "32強淘汰賽 (W74)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "01:00", "home": "C組第一名", "away": "F組第二名", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-075", "no": 75, "stage_raw": "32強淘汰賽 (W75)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "04:30", "home": "E組第一名", "away": "最佳小組第三名A/B/C/D/E/F", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-076", "no": 76, "stage_raw": "32強淘汰賽 (W76)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "08:00", "home": "D組第一名", "away": "最佳小組第三名B/C/E/F/G/H", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-077", "no": 77, "stage_raw": "32強淘汰賽 (W77)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "09:00", "home": "F組第一名", "away": "最佳小組第三名C/D/E/F/G/H", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-078", "no": 78, "stage_raw": "32強淘汰賽 (W78)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-03", "time": "11:00", "home": "B組第一名", "away": "最佳小組第三名A/B/C/D/E/F", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-079", "no": 79, "stage_raw": "32強淘汰賽 (W79)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "09:00", "home": "A組第一名", "away": "最佳小組第三名C/D/E/F/G/H", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-080", "no": 80, "stage_raw": "32強淘汰賽 (W80)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "待定", "home": "C組第二名", "away": "H組第二名", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-081", "no": 81, "stage_raw": "32強淘汰賽 (W81)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "01:00", "home": "E組第二名", "away": "I組第二名", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-082", "no": 82, "stage_raw": "32強淘汰賽 (W82)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "04:00", "home": "G組第一名", "away": "最佳小組第三名I/J/K/L", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-083", "no": 83, "stage_raw": "32強淘汰賽 (W83)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "09:30", "home": "K組第一名", "away": "最佳小組第三名I/J/K/L", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-084", "no": 84, "stage_raw": "32強淘汰賽 (W84)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-03", "time": "03:00", "home": "H組第一名", "away": "J組第二名", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-085", "no": 85, "stage_raw": "32強淘汰賽 (W85)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "06:00", "home": "J組第一名", "away": "最佳小組第三名I/J/K/L", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-086", "no": 86, "stage_raw": "32強淘汰賽 (W86)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "05:00", "home": "I組第一名", "away": "最佳小組第三名G/H/I/J/K/L", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-087", "no": 87, "stage_raw": "32強淘汰賽 (W87)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "00:00", "home": "L組第一名", "away": "最佳小組第三名G/H/I/J/K/L", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-088", "no": 88, "stage_raw": "32強淘汰賽 (W88)", "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "02:00", "home": "G組第二名", "away": "K組第二名", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-089", "no": 89, "stage_raw": "16強淘汰賽 (W89)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-05", "time": "01:00", "home": "第74場勝者", "away": "第73場勝者", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-090", "no": 90, "stage_raw": "16強淘汰賽 (W90)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-05", "time": "05:00", "home": "第75場勝者", "away": "第76場勝者", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-091", "no": 91, "stage_raw": "16強淘汰賽 (W91)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-06", "time": "04:00", "home": "第77場勝者", "away": "第78場勝者", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-092", "no": 92, "stage_raw": "16強淘汰賽 (W92)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-06", "time": "08:00", "home": "第79場勝者", "away": "第80場勝者", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-093", "no": 93, "stage_raw": "16強淘汰賽 (W93)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-07", "time": "03:00", "home": "第82場勝者", "away": "第81場勝者", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-094", "no": 94, "stage_raw": "16強淘汰賽 (W94)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-07", "time": "08:00", "home": "第83場勝者", "away": "第84場勝者", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-095", "no": 95, "stage_raw": "16強淘汰賽 (W95)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-08", "time": "04:00", "home": "第86場勝者", "away": "第85場勝者", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-096", "no": 96, "stage_raw": "16強淘汰賽 (W96)", "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-08", "time": "00:00", "home": "第87場勝者", "away": "第88場勝者", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-097", "no": 97, "stage_raw": "半準決賽 / 8強 (W97)", "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-10", "time": "04:00", "home": "第89場勝者", "away": "第90場勝者", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-098", "no": 98, "stage_raw": "半準決賽 / 8強 (W98)", "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-11", "time": "03:00", "home": "第91場勝者", "away": "第92場勝者", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-099", "no": 99, "stage_raw": "半準決賽 / 8強 (W99)", "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-12", "time": "05:00", "home": "第93場勝者", "away": "第94場勝者", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-100", "no": 100, "stage_raw": "半準決賽 / 8強 (W100)", "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-12", "time": "09:00", "home": "第95場勝者", "away": "第96場勝者", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-101", "no": 101, "stage_raw": "準決賽 / 4強 (W101)", "stage": "4強", "stageKey": "sf", "group": null, "date": "2026-07-15", "time": "03:00", "home": "第97場勝者", "away": "第98場勝者", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-102", "no": 102, "stage_raw": "準決賽 / 4強 (W102)", "stage": "4強", "stageKey": "sf", "group": null, "date": "2026-07-16", "time": "03:00", "home": "第99場勝者", "away": "第100場勝者", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-103", "no": 103, "stage_raw": "季軍賽 (W103)", "stage": "季軍賽", "stageKey": "third", "group": null, "date": "2026-07-19", "time": "05:00", "home": "第101場敗者", "away": "第102場敗者", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}, {"id": "2026-104", "no": 104, "stage_raw": "冠軍決賽 (W104)", "stage": "決賽", "stageKey": "final", "group": null, "date": "2026-07-20", "time": "03:00", "home": "第101場勝者", "away": "第102場勝者", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台", "homeScore": null, "awayScore": null, "finished": false}];
-let apiScores = {};
-let curTab    = 'all';
+// ── STATIC MATCH DATA (from xlsx, all 104 matches) ──
+const MATCHES = [{"id": "2026-001", "no": 1, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-12", "time": "03:00", "home": "墨西哥", "away": "南非", "enHome": "Mexico", "enAway": "South Africa", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-002", "no": 2, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-12", "time": "10:00", "home": "韓國", "away": "捷克", "enHome": "Korea Republic", "enAway": "Czechia", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-003", "no": 3, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-13", "time": "03:00", "home": "加拿大", "away": "波斯尼亞", "enHome": "Canada", "enAway": "Bosnia and Herzegovina", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-004", "no": 4, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-13", "time": "09:00", "home": "美國", "away": "巴拉圭", "enHome": "USA", "enAway": "Paraguay", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-005", "no": 5, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-14", "time": "03:00", "home": "卡塔爾", "away": "瑞士", "enHome": "Qatar", "enAway": "Switzerland", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-006", "no": 6, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-14", "time": "06:00", "home": "巴西", "away": "摩洛哥", "enHome": "Brazil", "enAway": "Morocco", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-007", "no": 7, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-14", "time": "09:00", "home": "海地", "away": "蘇格蘭", "enHome": "Haiti", "enAway": "Scotland", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-008", "no": 8, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-14", "time": "12:00", "home": "澳洲", "away": "土耳其", "enHome": "Australia", "enAway": "Türkiye", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-009", "no": 9, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-15", "time": "01:00", "home": "德國", "away": "庫拉索", "enHome": "Germany", "enAway": "Curaçao", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-010", "no": 10, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-15", "time": "04:00", "home": "荷蘭", "away": "日本", "enHome": "Netherlands", "enAway": "Japan", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-011", "no": 11, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-15", "time": "07:00", "home": "科特迪瓦", "away": "厄瓜多爾", "enHome": "Côte d'Ivoire", "enAway": "Ecuador", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-012", "no": 12, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-15", "time": "10:00", "home": "瑞典", "away": "突尼西亞", "enHome": "Sweden", "enAway": "Tunisia", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-013", "no": 13, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-16", "time": "00:00", "home": "西班牙", "away": "佛得角", "enHome": "Spain", "enAway": "Cabo Verde", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-014", "no": 14, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-16", "time": "03:00", "home": "比利時", "away": "埃及", "enHome": "Belgium", "enAway": "Egypt", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-015", "no": 15, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-16", "time": "06:00", "home": "沙特阿拉伯", "away": "烏拉圭", "enHome": "Saudi Arabia", "enAway": "Uruguay", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-016", "no": 16, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-16", "time": "09:00", "home": "伊朗", "away": "新西蘭", "enHome": "IR Iran", "enAway": "New Zealand", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-017", "no": 17, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-17", "time": "03:00", "home": "法國", "away": "塞內加爾", "enHome": "France", "enAway": "Senegal", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-018", "no": 18, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-17", "time": "06:00", "home": "伊拉克", "away": "挪威", "enHome": "Iraq", "enAway": "Norway", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-019", "no": 19, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-17", "time": "09:00", "home": "阿根廷", "away": "阿爾及利亞", "enHome": "Argentina", "enAway": "Algeria", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-020", "no": 20, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-17", "time": "12:00", "home": "奧地利", "away": "約旦", "enHome": "Austria", "enAway": "Jordan", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-021", "no": 21, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-18", "time": "01:00", "home": "葡萄牙", "away": "剛果民主共和國", "enHome": "Portugal", "enAway": "Congo DR", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-022", "no": 22, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-18", "time": "04:00", "home": "英格蘭", "away": "克羅地亞", "enHome": "England", "enAway": "Croatia", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-023", "no": 23, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-18", "time": "07:00", "home": "加納", "away": "巴拿馬", "enHome": "Ghana", "enAway": "Panama", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-024", "no": 24, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-18", "time": "10:00", "home": "烏茲別克", "away": "哥倫比亞", "enHome": "Uzbekistan", "enAway": "Colombia", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-025", "no": 25, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-19", "time": "00:00", "home": "捷克", "away": "南非", "enHome": "Czechia", "enAway": "South Africa", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-026", "no": 26, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-19", "time": "03:00", "home": "瑞士", "away": "波斯尼亞", "enHome": "Switzerland", "enAway": "Bosnia and Herzegovina", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-027", "no": 27, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-19", "time": "06:00", "home": "加拿大", "away": "卡塔爾", "enHome": "Canada", "enAway": "Qatar", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-028", "no": 28, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-19", "time": "09:00", "home": "韓國", "away": "墨西哥", "enHome": "Korea Republic", "enAway": "Mexico", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-029", "no": 29, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-20", "time": "03:00", "home": "美國", "away": "澳洲", "enHome": "USA", "enAway": "Australia", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-030", "no": 30, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-20", "time": "06:00", "home": "蘇格蘭", "away": "摩洛哥", "enHome": "Scotland", "enAway": "Morocco", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-031", "no": 31, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-20", "time": "08:30", "home": "巴西", "away": "海地", "enHome": "Brazil", "enAway": "Haiti", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-032", "no": 32, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-20", "time": "11:00", "home": "土耳其", "away": "巴拉圭", "enHome": "Türkiye", "enAway": "Paraguay", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-033", "no": 33, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-21", "time": "01:00", "home": "荷蘭", "away": "瑞典", "enHome": "Netherlands", "enAway": "Sweden", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-034", "no": 34, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-21", "time": "04:00", "home": "德國", "away": "科特迪瓦", "enHome": "Germany", "enAway": "Côte d'Ivoire", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-035", "no": 35, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-21", "time": "08:00", "home": "厄瓜多爾", "away": "庫拉索", "enHome": "Ecuador", "enAway": "Curaçao", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-036", "no": 36, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-21", "time": "12:00", "home": "突尼西亞", "away": "日本", "enHome": "Tunisia", "enAway": "Japan", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-037", "no": 37, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-22", "time": "00:00", "home": "西班牙", "away": "沙特阿拉伯", "enHome": "Spain", "enAway": "Saudi Arabia", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-038", "no": 38, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-22", "time": "03:00", "home": "比利時", "away": "伊朗", "enHome": "Belgium", "enAway": "IR Iran", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-039", "no": 39, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-22", "time": "06:00", "home": "烏拉圭", "away": "佛得角", "enHome": "Uruguay", "enAway": "Cabo Verde", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-040", "no": 40, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-22", "time": "09:00", "home": "新西蘭", "away": "埃及", "enHome": "New Zealand", "enAway": "Egypt", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-041", "no": 41, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-23", "time": "01:00", "home": "阿根廷", "away": "奧地利", "enHome": "Argentina", "enAway": "Austria", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-042", "no": 42, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-23", "time": "05:00", "home": "法國", "away": "伊拉克", "enHome": "France", "enAway": "Iraq", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-043", "no": 43, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-23", "time": "08:00", "home": "挪威", "away": "塞內加爾", "enHome": "Norway", "enAway": "Senegal", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-044", "no": 44, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-23", "time": "11:00", "home": "約旦", "away": "阿爾及利亞", "enHome": "Jordan", "enAway": "Algeria", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-045", "no": 45, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-24", "time": "01:00", "home": "葡萄牙", "away": "烏茲別克", "enHome": "Portugal", "enAway": "Uzbekistan", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-046", "no": 46, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-24", "time": "04:00", "home": "英格蘭", "away": "加納", "enHome": "England", "enAway": "Ghana", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-047", "no": 47, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-24", "time": "07:00", "home": "巴拿馬", "away": "克羅地亞", "enHome": "Panama", "enAway": "Croatia", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-048", "no": 48, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-24", "time": "10:00", "home": "哥倫比亞", "away": "剛果民主共和國", "enHome": "Colombia", "enAway": "Congo DR", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-049", "no": 49, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-25", "time": "03:00", "home": "瑞士", "away": "加拿大", "enHome": "Switzerland", "enAway": "Canada", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-050", "no": 50, "stage": "B組", "stageKey": "group", "group": "B", "date": "2026-06-25", "time": "03:00", "home": "波斯尼亞", "away": "卡塔爾", "enHome": "Bosnia and Herzegovina", "enAway": "Qatar", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-051", "no": 51, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-25", "time": "06:00", "home": "摩洛哥", "away": "海地", "enHome": "Morocco", "enAway": "Haiti", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-052", "no": 52, "stage": "C組", "stageKey": "group", "group": "C", "date": "2026-06-25", "time": "06:00", "home": "蘇格蘭", "away": "巴西", "enHome": "Scotland", "enAway": "Brazil", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-053", "no": 53, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-25", "time": "09:00", "home": "南非", "away": "韓國", "enHome": "South Africa", "enAway": "Korea Republic", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 619/617台"}, {"id": "2026-054", "no": 54, "stage": "A組", "stageKey": "group", "group": "A", "date": "2026-06-25", "time": "09:00", "home": "捷克", "away": "墨西哥", "enHome": "Czechia", "enAway": "Mexico", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-055", "no": 55, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-26", "time": "04:00", "home": "庫拉索", "away": "科特迪瓦", "enHome": "Curaçao", "enAway": "Côte d'Ivoire", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-056", "no": 56, "stage": "E組", "stageKey": "group", "group": "E", "date": "2026-06-26", "time": "04:00", "home": "厄瓜多爾", "away": "德國", "enHome": "Ecuador", "enAway": "Germany", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-057", "no": 57, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-26", "time": "07:00", "home": "突尼西亞", "away": "荷蘭", "enHome": "Tunisia", "enAway": "Netherlands", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-058", "no": 58, "stage": "F組", "stageKey": "group", "group": "F", "date": "2026-06-26", "time": "07:00", "home": "日本", "away": "瑞典", "enHome": "Japan", "enAway": "Sweden", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-059", "no": 59, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-26", "time": "10:00", "home": "土耳其", "away": "美國", "enHome": "Türkiye", "enAway": "USA", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-060", "no": 60, "stage": "D組", "stageKey": "group", "group": "D", "date": "2026-06-26", "time": "10:00", "home": "巴拉圭", "away": "澳洲", "enHome": "Paraguay", "enAway": "Australia", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-061", "no": 61, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-27", "time": "03:00", "home": "挪威", "away": "法國", "enHome": "Norway", "enAway": "France", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-062", "no": 62, "stage": "I組", "stageKey": "group", "group": "I", "date": "2026-06-27", "time": "03:00", "home": "塞內加爾", "away": "伊拉克", "enHome": "Senegal", "enAway": "Iraq", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 619/617台"}, {"id": "2026-063", "no": 63, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-27", "time": "08:00", "home": "佛得角", "away": "沙特阿拉伯", "enHome": "Cabo Verde", "enAway": "Saudi Arabia", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-064", "no": 64, "stage": "H組", "stageKey": "group", "group": "H", "date": "2026-06-27", "time": "08:00", "home": "烏拉圭", "away": "西班牙", "enHome": "Uruguay", "enAway": "Spain", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-065", "no": 65, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-27", "time": "11:00", "home": "新西蘭", "away": "比利時", "enHome": "New Zealand", "enAway": "Belgium", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-066", "no": 66, "stage": "G組", "stageKey": "group", "group": "G", "date": "2026-06-27", "time": "11:00", "home": "埃及", "away": "伊朗", "enHome": "Egypt", "enAway": "IR Iran", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-067", "no": 67, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-28", "time": "05:00", "home": "英國", "away": "巴拿馬", "enHome": "England", "enAway": "Panama", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-068", "no": 68, "stage": "L組", "stageKey": "group", "group": "L", "date": "2026-06-28", "time": "05:00", "home": "克羅地亞", "away": "加納", "enHome": "Croatia", "enAway": "Ghana", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-069", "no": 69, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-28", "time": "07:30", "home": "哥倫比亞", "away": "葡萄牙", "enHome": "Colombia", "enAway": "Portugal", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-070", "no": 70, "stage": "K組", "stageKey": "group", "group": "K", "date": "2026-06-28", "time": "07:30", "home": "剛果民主共和國", "away": "烏茲別克", "enHome": "Congo DR", "enAway": "Uzbekistan", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-071", "no": 71, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-28", "time": "10:00", "home": "阿爾及利亞", "away": "奧地利", "enHome": "Algeria", "enAway": "Austria", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 619/617台"}, {"id": "2026-072", "no": 72, "stage": "J組", "stageKey": "group", "group": "J", "date": "2026-06-28", "time": "10:00", "home": "約旦", "away": "阿根廷", "enHome": "Jordan", "enAway": "Argentina", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-073", "no": 73, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-29", "time": "03:00", "home": "A組次名", "away": "B組次名", "enHome": "", "enAway": "", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-074", "no": 74, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "01:00", "home": "C組首名", "away": "F組次名", "enHome": "", "enAway": "", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-075", "no": 75, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "04:30", "home": "E組首名", "away": "A/B/C/D/F組第3名", "enHome": "", "enAway": "", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-076", "no": 76, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "08:00", "home": "D組首名", "away": "B/E/F/I/J組第3名", "enHome": "", "enAway": "", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-077", "no": 77, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-06-30", "time": "09:00", "home": "F組首名", "away": "C組次名", "enHome": "", "enAway": "", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-078", "no": 78, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-03", "time": "11:00", "home": "B組首名", "away": "E/F/G/I/J組第3名", "enHome": "", "enAway": "", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-079", "no": 79, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "09:00", "home": "A組首名", "away": "C/E/F/H/I第3名", "enHome": "", "enAway": "", "venue": "Guadalajara Stadium", "city": "瓜達拉哈拉", "country": "墨西哥", "tv": "Now 618/616台"}, {"id": "2026-080", "no": 80, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "待定", "home": "C組次名", "away": "H組次名（待更新）", "enHome": "", "enAway": "", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-081", "no": 81, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "01:00", "home": "E組次名", "away": "I組次名", "enHome": "", "enAway": "", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-082", "no": 82, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "04:00", "home": "G組首名", "away": "A/E/H/I/J組第3名", "enHome": "", "enAway": "", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-083", "no": 83, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "09:30", "home": "K組首名", "away": "D/E/I/J/L組第3名", "enHome": "", "enAway": "", "venue": "Toronto Stadium", "city": "多倫多", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-084", "no": 84, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-03", "time": "03:00", "home": "H組首名", "away": "J組次名", "enHome": "", "enAway": "", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-085", "no": 85, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "06:00", "home": "J組首名", "away": "H組次名", "enHome": "", "enAway": "", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-086", "no": 86, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-01", "time": "05:00", "home": "I組首名", "away": "C/D/F/G/H組第3名", "enHome": "", "enAway": "", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-087", "no": 87, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-02", "time": "00:00", "home": "L組首名", "away": "E/H/I/J/K第3名", "enHome": "", "enAway": "", "venue": "Philadelphia Stadium", "city": "費城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-088", "no": 88, "stage": "32強", "stageKey": "r32", "group": null, "date": "2026-07-04", "time": "02:00", "home": "D組次名", "away": "G組次名", "enHome": "", "enAway": "", "venue": "Monterrey Stadium", "city": "蒙特雷", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-089", "no": 89, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-05", "time": "01:00", "home": "16強賽事 (一)", "away": "", "enHome": "", "enAway": "", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-090", "no": 90, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-05", "time": "05:00", "home": "16強賽事 (二)", "away": "", "enHome": "", "enAway": "", "venue": "Houston Stadium", "city": "休士頓", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-091", "no": 91, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-06", "time": "04:00", "home": "16強賽事 (三)", "away": "", "enHome": "", "enAway": "", "venue": "Mexico City Stadium", "city": "墨西哥城", "country": "墨西哥", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-092", "no": 92, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-06", "time": "08:00", "home": "16強賽事 (四)", "away": "", "enHome": "", "enAway": "", "venue": "San Francisco Bay Area Stadium", "city": "舊金山灣區", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-093", "no": 93, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-07", "time": "03:00", "home": "16強賽事 (五)", "away": "", "enHome": "", "enAway": "", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-094", "no": 94, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-07", "time": "08:00", "home": "16強賽事 (六)", "away": "", "enHome": "", "enAway": "", "venue": "Seattle Stadium", "city": "西雅圖", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-095", "no": 95, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-08", "time": "04:00", "home": "16強賽事 (七)", "away": "", "enHome": "", "enAway": "", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-096", "no": 96, "stage": "16強", "stageKey": "r16", "group": null, "date": "2026-07-08", "time": "00:00", "home": "16強賽事 (八)", "away": "", "enHome": "", "enAway": "", "venue": "BC Place Vancouver", "city": "溫哥華", "country": "加拿大", "tv": "Now 618/616台"}, {"id": "2026-097", "no": 97, "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-10", "time": "04:00", "home": "8強賽事 (一)", "away": "", "enHome": "", "enAway": "", "venue": "Boston Stadium", "city": "波士頓", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-098", "no": 98, "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-11", "time": "03:00", "home": "8強賽事 (二)", "away": "", "enHome": "", "enAway": "", "venue": "Los Angeles Stadium", "city": "洛杉磯", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-099", "no": 99, "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-12", "time": "05:00", "home": "8強賽事 (三)", "away": "", "enHome": "", "enAway": "", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-100", "no": 100, "stage": "8強", "stageKey": "qf", "group": null, "date": "2026-07-12", "time": "09:00", "home": "8強賽事 (四)", "away": "", "enHome": "", "enAway": "", "venue": "Kansas City Stadium", "city": "堪薩斯城", "country": "美國", "tv": "Now 618/616台"}, {"id": "2026-101", "no": 101, "stage": "準決賽", "stageKey": "sf", "group": null, "date": "2026-07-15", "time": "03:00", "home": "4強賽事 (一)", "away": "", "enHome": "", "enAway": "", "venue": "Dallas Stadium", "city": "達拉斯", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-102", "no": 102, "stage": "準決賽", "stageKey": "sf", "group": null, "date": "2026-07-16", "time": "03:00", "home": "4強賽事 (二)", "away": "", "enHome": "", "enAway": "", "venue": "Atlanta Stadium", "city": "亞特蘭大", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-103", "no": 103, "stage": "季軍賽", "stageKey": "third", "group": null, "date": "2026-07-19", "time": "05:00", "home": "季軍戰", "away": "", "enHome": "", "enAway": "", "venue": "Miami Stadium", "city": "邁阿密", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}, {"id": "2026-104", "no": 104, "stage": "決賽", "stageKey": "final", "group": null, "date": "2026-07-20", "time": "03:00", "home": "決賽", "away": "", "enHome": "", "enAway": "", "venue": "New York New Jersey Stadium", "city": "紐約/紐澤西", "country": "美國", "tv": "Viu TV 99台（免費）/ Now 618/616台"}];
 
-function getQ(){ return parseInt(sessionStorage.getItem('wq')||'0') }
-function addQ(n=1){
-  const q=getQ()+n; sessionStorage.setItem('wq',q);
-  document.getElementById('quota').textContent=MAX-q; return q;
-}
-function canQ(){ return getQ()<MAX }
+// ── RUNTIME STATE ──
+let apiCache = {};  // id → {homeScore,awayScore,status,liveMinute,homeTeam,awayTeam,penalties}
+let curTab = 'all';
+let fetchDone = false;
 
-/* ─── TIME HELPERS ─── */
+// ── QUOTA (session only, no localStorage) ──
+let _q = 0;
+function getQ(){ return _q; }
+function addQ(n=1){ _q+=n; document.getElementById('quota').textContent = MAX_Q-_q; }
+function canQ(){ return _q < MAX_Q; }
+
+// ── DATE/TIME HELPERS ──
 function todayHKT(){
   return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Hong_Kong'});
 }
 function fmtDate(d){
-  const dt=new Date(d+'T00:00:00+08:00');
+  const dt = new Date(d+'T00:00:00+08:00');
   return dt.toLocaleDateString('zh-HK',{timeZone:'Asia/Hong_Kong',month:'long',day:'numeric',weekday:'short'});
 }
 function fmtTime(t){
   if(!t||t==='待定') return '待定';
-  const [h,m]=t.split(':').map(Number);
-  if(h===0) return `凌晨 12:${String(m).padStart(2,'0')}`;
-  if(h<6)   return `凌晨 ${h}:${String(m).padStart(2,'0')}`;
-  if(h<12)  return `早上 ${h}:${String(m).padStart(2,'0')}`;
-  if(h===12)return `中午 12:${String(m).padStart(2,'0')}`;
-  if(h<18)  return `下午 ${h-12}:${String(m).padStart(2,'0')}`;
-  return `晚上 ${h-12}:${String(m).padStart(2,'0')}`;
+  const p=t.split(':'); if(p.length<2) return t;
+  const h=parseInt(p[0],10), m=p[1];
+  if(h===0)  return `午夜 12:${m}`;
+  if(h<6)    return `凌晨 ${h}:${m}`;
+  if(h<12)   return `早上 ${h}:${m}`;
+  if(h===12) return `中午 12:${m}`;
+  if(h<18)   return `下午 ${h-12}:${m}`;
+  return `晚上 ${h-12}:${m}`;
 }
 
-/* ─── RENDER ─── */
+// ── TV CHIPS ──
 function tvChips(tv){
   if(!tv) return '';
-  let out='';
-  if(tv.includes('Viu')) out+=`<span class="tv-chip viu">📺 Viu TV 99</span>`;
-  if(tv.includes('618')) out+=`<span class="tv-chip now-tv">📺 Now 618/616</span>`;
-  if(tv.includes('619')) out+=`<span class="tv-chip now-tv">📺 Now 619/617</span>`;
-  return out;
+  let o='';
+  if(/viu/i.test(tv))  o+=`<span class="tv-chip viu">Viu 99</span>`;
+  if(/618/.test(tv))   o+=`<span class="tv-chip now">Now 618/616</span>`;
+  if(/619/.test(tv))   o+=`<span class="tv-chip now">Now 619/617</span>`;
+  return o;
 }
 
-function renderCard(m){
-  const sc=apiScores[m.id];
-  const hs = sc?.homeScore ?? m.homeScore;
-  const as = sc?.awayScore ?? m.awayScore;
-  const done = sc?.status==='ft'||sc?.status==='finalized'||m.finished;
-  const live = sc?.status==='live';
-  const gc = m.group ? GC[m.group] : '#a080ea';
-  const hf=flagUrl(m.home), af=flagUrl(m.away);
+// ── FLAG URL ──
+function flagUrl(name){
+  const iso = FLAG[name];
+  return iso ? `https://flagcdn.com/w40/${iso}.png` : '';
+}
 
+// ── RENDER ONE CARD ──
+function renderCard(m){
+  const c   = apiCache[m.id] || {};
+  const hs  = c.homeScore ?? null;
+  const as  = c.awayScore ?? null;
+  const st  = c.status || '';
+  const live = st==='live'||st==='in_progress';
+  const done = st==='finished'||st==='ft'||st==='finalized';
+  const pen  = c.penalties;
+
+  // Resolve display names: for KO matches, API may have real teams
+  const homeName = c.homeCN || m.home;
+  const awayName = c.awayCN || m.away;
+  const isPlaceholder = h => !h || h.endsWith('名')||h.includes('強賽事')||h.includes('場勝')||h.includes('季軍戰')||h==='決賽'||h.includes('4強賽');
+
+  const gc  = m.group ? GC[m.group] : '#a080ea';
+  const hf  = flagUrl(homeName);
+  const af  = flagUrl(awayName);
+
+  // Score block
   let scoreHtml;
   if(live){
-    scoreHtml=`<div class="score">${hs??0} - ${as??0}</div>
-    <span class="badge b-live"><span class="live-dot"></span>${sc.liveMinute?sc.liveMinute+"'":"LIVE"}</span>`;
-  }else if(done && hs!=null){
-    const isDraw = hs===as;
-    scoreHtml=`<div class="score">${hs} - ${as}</div>
-    <span class="badge ${isDraw?'b-draw':'b-ft'}">${isDraw?'平局':'FT'}</span>`;
-  }else{
-    scoreHtml=`<div class="score empty">${fmtTime(m.time)}</div>
-    <div class="mtime">HKT · 場次 ${m.no}</div>`;
+    const min = c.liveMinute ? `${c.liveMinute}'` : 'LIVE';
+    scoreHtml = `<div class="score">${hs??0} - ${as??0}</div><span class="badge b-live"><span class="live-dot"></span>${min}</span>`;
+  } else if(done && hs!==null && as!==null){
+    const draw = hs===as;
+    const penTxt = pen ? ` (P ${pen.home}-${pen.away})` : '';
+    scoreHtml = `<div class="score">${hs} - ${as}</div><span class="badge ${draw?'b-draw':'b-ft'}">${pen?'AET':'FT'}${penTxt}</span>`;
+  } else {
+    scoreHtml = `<div class="score vs">${fmtTime(m.time)}</div><div class="mtime">HKT · #${m.no}</div>`;
   }
 
-  const stageChip=`<span class="stage-chip" style="--gc:${gc}">${m.stage}</span>`;
-  const tvH=tvChips(m.tv);
-  const venueH=`<span class="meta-item">🏟 ${m.city}</span>`;
+  const hFlag = hf ? `<img class="flag" src="${hf}" alt="${homeName}" loading="lazy" width="36" height="24" onerror="this.style.display='none'">` : '';
+  const aFlag = af ? `<img class="flag" src="${af}" alt="${awayName}" loading="lazy" width="36" height="24" onerror="this.style.display='none'">` : '';
+  const hPH = isPlaceholder(homeName) ? ' placeholder' : '';
+  const aPH = isPlaceholder(awayName) ? ' placeholder' : '';
 
-  return `<div class="mc${live?' live':''}${done?' done':''}" style="--gc:${gc}">
+  return `<div class="mc${live?' live':''}${done?' done':''}" style="--gc:${gc}" role="listitem">
   <div class="tb">
-    ${hf?`<img class="flag" src="${hf}" alt="${m.home}" loading="lazy" width="38" height="26" onerror="this.style.display='none'">`:''}
-    <div class="tname">${m.home}</div>
+    ${hFlag}<div class="tname${hPH}">${homeName||'—'}</div>
   </div>
   <div class="sc">${scoreHtml}</div>
   <div class="tb away">
-    ${af?`<img class="flag" src="${af}" alt="${m.away}" loading="lazy" width="38" height="26" onerror="this.style.display='none'">`:''}
-    <div class="tname">${m.away}</div>
+    ${aFlag}<div class="tname${aPH}">${awayName||'—'}</div>
   </div>
   <div class="mc-foot">
-    ${stageChip}
-    <div class="meta-info">${venueH}${tvH}</div>
+    <span class="stage-chip" style="--gc:${gc}">${m.stage}</span>
+    <div class="meta-r">
+      <span class="meta-item">🏟 ${m.city}</span>
+      ${tvChips(m.tv)}
+    </div>
   </div>
 </div>`;
 }
 
+// ── FILTER ──
 function getFiltered(){
-  const today=todayHKT();
-  if(curTab==='live') return MATCHES.filter(m=>apiScores[m.id]?.status==='live');
+  const today = todayHKT();
+  if(curTab==='live')  return MATCHES.filter(m=>{const s=apiCache[m.id]?.status||''; return s==='live'||s==='in_progress';});
   if(curTab==='today') return MATCHES.filter(m=>m.date===today);
   if(curTab==='group') return MATCHES.filter(m=>m.stageKey==='group');
-  if(curTab==='ko') return MATCHES.filter(m=>m.stageKey!=='group');
-  if(curTab.startsWith('G_')){
-    const g=curTab.slice(2); return MATCHES.filter(m=>m.group===g);
-  }
+  if(curTab==='ko')    return MATCHES.filter(m=>m.stageKey!=='group');
+  if(curTab.startsWith('G_')){ const g=curTab.slice(2); return MATCHES.filter(m=>m.group===g); }
   return MATCHES;
 }
 
+// ── RENDER ALL ──
 function renderAll(){
-  const list=getFiltered();
-  const today=todayHKT();
-  const byDate={};
-  list.forEach(m=>{ if(!byDate[m.date]) byDate[m.date]=[]; byDate[m.date].push(m); });
-  const dates=Object.keys(byDate).sort();
-
-  let html='';
+  const list  = getFiltered();
+  const today = todayHKT();
+  const byDate = {};
+  list.forEach(m=>{(byDate[m.date]||(byDate[m.date]=[])).push(m);});
+  const dates = Object.keys(byDate).sort();
+  let html = '';
   if(!dates.length){
-    html=`<div class="empty"><div class="icon">⚽</div><h3>暫無賽事</h3><p>此分類目前沒有比賽</p></div>`;
-  }else{
+    html = `<div class="empty-state"><div class="ico">⚽</div><h3>暫無賽事</h3><p>此分類目前沒有比賽</p></div>`;
+  } else {
     dates.forEach(d=>{
-      const isT=d===today;
-      html+=`<div class="dg">
-        <div class="date-lbl${isT?' today':''}">
-          ${isT?'📅 今日 — ':''}${fmtDate(d)}
-        </div>`;
-      byDate[d].forEach(m=>{ html+=renderCard(m); });
-      html+='</div>';
+      const isT = d===today;
+      html += `<div class="dg"><div class="date-lbl${isT?' today':''}">
+        ${isT?'📅 今日 · ':''}${fmtDate(d)}</div>`;
+      byDate[d].forEach(m=>{ html += renderCard(m); });
+      html += '</div>';
     });
   }
-
-  document.getElementById('mlist').innerHTML=html;
-  document.getElementById('cnt').textContent=`${list.length} 場賽事`;
-  const titles={all:'所有賽事',live:'🔴 即時比賽',today:'📅 今日賽事',group:'小組賽',ko:'淘汰賽'};
-  const t=titles[curTab]||(curTab.startsWith('G_')?curTab.slice(2)+'組 賽事':'賽事');
-  document.getElementById('sec-title').textContent=t;
+  document.getElementById('mlist').innerHTML = html;
+  document.getElementById('cnt').textContent = `${list.length} 場`;
+  const labels = {all:'所有賽事',live:'🔴 即時比賽',today:'📅 今日賽事',group:'小組賽',ko:'淘汰賽'};
+  document.getElementById('sec-title').textContent = labels[curTab]||(curTab.startsWith('G_')?curTab.slice(2)+'組賽事':'賽事');
 }
 
-/* ─── API ─── */
+// ── MERGE API DATA ──
+function mergeApi(data){
+  const HKT = 8*60*60*1000;
+  data.forEach(m=>{
+    if(!m||typeof m!=='object') return;
+
+    // Build HKT date from kickoffUtc for primary key matching
+    let hktDate = '';
+    if(m.kickoffUtc){
+      const utc = new Date(m.kickoffUtc);
+      const hkt = new Date(utc.getTime()+HKT);
+      hktDate = hkt.toISOString().slice(0,10);
+    }
+
+    // Find local match: for group stage use EN names + HKT date
+    // For KO stage use API id directly
+    let local = MATCHES.find(lm=>lm.id===m.id);
+    if(!local && m.homeTeam && m.awayTeam && hktDate){
+      local = MATCHES.find(lm=>lm.enHome===m.homeTeam && lm.enAway===m.awayTeam && lm.date===hktDate);
+      // ±1 day fallback
+      if(!local){
+        const d=new Date(hktDate+'T00:00:00Z');
+        for(const delta of [-1,+1]){
+          const alt = new Date(d.getTime()+delta*86400000).toISOString().slice(0,10);
+          local = MATCHES.find(lm=>lm.enHome===m.homeTeam&&lm.enAway===m.awayTeam&&lm.date===alt);
+          if(local) break;
+        }
+      }
+    }
+    if(!local) return;
+
+    const prev = apiCache[local.id] || {};
+    // Always update scores & status
+    prev.homeScore  = m.homeScore ?? m.home_score ?? prev.homeScore ?? null;
+    prev.awayScore  = m.awayScore ?? m.away_score ?? prev.awayScore ?? null;
+    prev.status     = m.status || prev.status || null;
+    prev.liveMinute = m.liveMinute || m.minute || prev.liveMinute || null;
+    prev.penalties  = m.penalties || prev.penalties || null;
+
+    // For KO matches: update team names if API has real teams
+    if(local.stageKey !== 'group' && m.homeTeam && m.awayTeam){
+      const hCN = EN_CN[m.homeTeam];
+      const aCN = EN_CN[m.awayTeam];
+      if(hCN) prev.homeCN = hCN;
+      if(aCN) prev.awayCN = aCN;
+    }
+    apiCache[local.id] = prev;
+  });
+}
+
+// ── FETCH MATCHES ──
 async function fetchAll(){
-  if(!canQ()){ setStatus('⚠ 今日配額已用盡','#FF9900'); return; }
+  if(!canQ()){ setStatus('⚠ 配額已用盡','#FF9900'); return; }
   setLoading(true);
   try{
-    const hdrs={...HDR};
-    const etag=sessionStorage.getItem('wc_etag');
-    if(etag) hdrs['If-None-Match']=etag;
-    const res=await fetch(`${API}/matches?year=2026`,{headers:hdrs});
-    if(res.status===304){ setStatus('✓ 已是最新','#22c55e'); }
-    else if(res.ok){
+    const hdrs = {'X-API-Key': KEY};
+    const etag = sessionStorage.getItem('wc26_etag');
+    if(etag) hdrs['If-None-Match'] = etag;
+    const res = await fetch(`${API}/matches?year=2026`, {headers:hdrs});
+    if(res.status===304){
+      setStatus('✓ 已是最新','#22c55e');
+    } else if(res.ok){
       addQ();
-      const ne=res.headers.get('ETag');
-      if(ne) sessionStorage.setItem('wc_etag',ne);
-      const j=await res.json();
-      mergeApi(j.data||[]);
-      setStatus('✓ API 已更新','#22c55e');
-    }else{ setStatus('API '+ res.status,'#f25e8b'); }
-  }catch(e){ setStatus('網絡錯誤','#FF9900'); }
+      const ne = res.headers.get('ETag'); if(ne) sessionStorage.setItem('wc26_etag',ne);
+      const raw = await res.json();
+      const data = Array.isArray(raw) ? raw : (raw.matches||raw.data||[]);
+      mergeApi(data);
+      setStatus(`✓ 已更新 ${new Date().toLocaleTimeString('zh-HK',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit'})}`, '#22c55e');
+    } else {
+      setStatus(`API ${res.status}`,'#f25e8b');
+    }
+  } catch(e){
+    setStatus('網絡錯誤','#FF9900');
+  }
   setLoading(false);
   renderAll();
 }
 
+// ── FETCH STANDINGS ──
 async function fetchStandings(){
   if(!canQ()) return;
   try{
-    const res=await fetch(`${API}/standings?year=2026`,{headers:HDR});
-    if(res.status===402) return;
-    if(res.ok){ addQ(); const j=await res.json(); renderStandings(j.groups||j.data||{}); }
-  }catch(e){}
+    const res = await fetch(`${API}/standings?year=2026`, {'headers':{'X-API-Key':KEY}});
+    if(!res.ok) return;
+    addQ();
+    const j = await res.json();
+    renderStandings(j.groups||j.data||{});
+  } catch(e){}
 }
 
-function mergeApi(data){
-  data.forEach(m=>{
-    if(m.homeScore!=null||m.awayScore!=null||m.status){
-      apiScores[m.id]={homeScore:m.homeScore,awayScore:m.awayScore,status:m.status,liveMinute:m.liveMinute};
-    }  
-  });
-}
-
-/* ─── STANDINGS ─── */
+// ── RENDER STANDINGS ──
 function renderStandings(groups){
-  const show = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-  let html='';
-  show.forEach(g=>{
-    if(!groups[g]) return;
-    const gc=GC[g];
-    html+=`<div class="panel" style="margin-bottom:12px">
-      <div class="ph">
-        <span class="ph-title"><span class="gdot" style="background:${gc}"></span>${g} 組積分榜</span>
-      </div>
-      <table class="stb">
-        <thead><tr><th>球隊</th><th>場</th><th>勝</th><th>平</th><th>負</th><th>分</th></tr></thead>
-        <tbody>`;
-    groups[g].forEach(t=>{
-      const f=flagUrl(t.team);
-      html+=`<tr${t.advanced?' class="adv"':''}>
-        <td><div class="tcell">
-          ${f?`<img class="fsm" src="${f}" alt="${t.team}" loading="lazy" width="20" height="14" onerror="this.style.display='none'">`:''}
-          <span class="tname-sm">${t.team}</span>
-        </div></td>
-        <td>${t.played}</td><td>${t.won}</td><td>${t.drawn}</td><td>${t.lost}</td>
-        <td class="pts">${t.points}</td>
+  const allGroups = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+  let html = '';
+  allGroups.forEach(g=>{
+    const list = groups[g];
+    if(!list||!list.length) return;
+    const gc = GC[g];
+    html += `<div class="panel" style="margin-bottom:10px">
+      <div class="ph"><span class="gdot" style="background:${gc}"></span>${g}組</div>
+      <table class="stb"><thead><tr>
+        <th>球隊</th><th>場</th><th>勝</th><th>平</th><th>負</th><th>分</th>
+      </tr></thead><tbody>`;
+    list.forEach((t,i)=>{
+      const name = EN_CN[t.team||t.name||''] || t.team||t.name||'';
+      const f = flagUrl(name);
+      const adv = i<3 ? ' adv' : '';
+      html += `<tr class="${adv}"><td><div class="tcell">
+        ${f?`<img class="fsm" src="${f}" alt="${name}" loading="lazy" width="18" height="13" onerror="this.style.display='none'">`:''}
+        <span>${name}</span></div></td>
+        <td>${t.played??t.gamesPlayed??'-'}</td>
+        <td>${t.won??t.wins??'-'}</td>
+        <td>${t.drawn??t.draws??'-'}</td>
+        <td>${t.lost??t.losses??'-'}</td>
+        <td class="pts">${t.points??'-'}</td>
       </tr>`;
     });
-    html+=`</tbody></table></div>`;
+    html += `</tbody></table></div>`;
   });
-  if(html) document.getElementById('standings-wrap').innerHTML=html;
+  if(html) document.getElementById('standings-wrap').innerHTML = html;
 }
 
-/* ─── RSS ─── */
+// ── RSS ──
 async function fetchRSS(){
   if(!RSS_FEED_URL) return;
-  const body=document.getElementById('rss-body');
-  body.innerHTML=`<div class="rss-loading">
-    <div class="rss-sk-line sk"></div><div class="rss-sk-short sk"></div>
-    <div class="rss-sk-line sk"></div><div class="rss-sk-short sk"></div>
-  </div>`;
+  const body = document.getElementById('rss-body');
   try{
-    const proxy=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}`;
-    const res=await fetch(proxy);
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}`);
     if(!res.ok) throw new Error();
-    const j=await res.json();
-    const items=(j.items||[]).slice(0,8);
+    const j = await res.json();
+    const items = (j.items||[]).slice(0,8);
     if(!items.length) throw new Error();
-    const li=items.map(i=>{
-      const d=new Date(i.pubDate).toLocaleDateString('zh-HK',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    body.innerHTML = `<ul class="rss-list">${items.map(item=>{
+      const dt = new Date(item.pubDate).toLocaleDateString('zh-HK',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
       return `<li class="rss-item">
-        <a href="${i.link}" target="_blank" rel="noopener noreferrer">${i.title}</a>
-        <time>${d}</time>
+        <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+        <time>${dt}</time>
         <span class="rss-source">${j.feed?.title||'新聞'}</span>
       </li>`;
-    }).join('');
-    body.innerHTML=`<ul class="rss-list">${li}</ul>`;
-  }catch(e){
-    body.innerHTML=`<div class="rss-empty"><div class="icon">📡</div><p>暫時無法載入新聞</p></div>`;
+    }).join('')}</ul>`;
+  } catch(e){
+    body.innerHTML = `<div class="rss-empty">⚡ 暫時無法載入新聞</div>`;
   }
 }
 
-/* ─── TABS ─── */
-function sw(tab,el){
-  curTab=tab;
+// ── TAB SWITCH ──
+function sw(tab, el){
+  curTab = tab;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   if(el?.classList?.contains('tab')) el.classList.add('on');
   renderAll();
@@ -582,53 +555,69 @@ function setBot(el){
   document.querySelectorAll('.bot-tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
 }
+
+// ── BUILD GROUP TABS ──
 function buildGroupTabs(){
-  const nav=document.getElementById('navtabs');
+  const nav = document.getElementById('navtabs');
   Object.entries(GC).forEach(([g,c])=>{
-    const b=document.createElement('button');
-    b.className='tab'; b.dataset.g=g;
-    b.style.setProperty('--gc',c);
-    b.textContent=`${g}組`;
-    b.onclick=()=>sw(`G_${g}`,b);
+    const b = document.createElement('button');
+    b.className = 'tab'; b.dataset.g = g;
+    b.style.setProperty('--gc', c);
+    b.setAttribute('role','tab');
+    b.textContent = `${g}組`;
+    b.onclick = ()=>sw(`G_${g}`, b);
     nav.appendChild(b);
   });
 }
 
-function setStatus(msg,color){
-  document.getElementById('upd').textContent=msg;
-  document.getElementById('api-dot').style.color=color;
-  document.getElementById('quota').textContent=MAX-getQ();
+// ── STATUS ──
+function setStatus(msg, color){
+  document.getElementById('upd-msg').textContent = msg;
+  document.getElementById('api-dot').style.color = color;
+  document.getElementById('quota').textContent = MAX_Q - _q;
 }
 function setLoading(on){
-  const b=document.getElementById('btn-ref');
-  b.disabled=on; b.classList.toggle('loading',on);
+  const b = document.getElementById('btn-ref');
+  b.disabled = on;
+  b.classList.toggle('loading', on);
 }
-function manualRefresh(){ fetchAll(); fetchStandings(); }
+function manualRefresh(){
+  sessionStorage.removeItem('wc26_etag');
+  fetchAll();
+  fetchStandings();
+}
 
-/* ─── INIT ─── */
+// ── INIT ──
 function init(){
   buildGroupTabs();
-  document.getElementById('quota').textContent=MAX-getQ();
+  document.getElementById('quota').textContent = MAX_Q;
+  // Render static data immediately
   renderAll();
-  setStatus('靜態資料已就緒','#a080ea');
+  setStatus('靜態資料就緒','#a080ea');
 
-  // Lazy-load API on first interaction or after 800ms
-  let fetched=false;
-  function doFetch(){
-    if(fetched) return; fetched=true;
+  // Fetch API after short delay, only once on open
+  const doFetch = ()=>{
+    if(fetchDone) return;
+    fetchDone = true;
     fetchAll();
     fetchStandings();
     fetchRSS();
-  }
-  setTimeout(doFetch, 800);
-  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&!fetched) doFetch(); });
+  };
+  setTimeout(doFetch, 600);
+
+  // Re-fetch when tab becomes visible again (only if was hidden >5min)
+  let hiddenAt = 0;
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden'){ hiddenAt=Date.now(); }
+    else if(Date.now()-hiddenAt > 300000){ fetchDone=false; doFetch(); }
+  });
+
+  window.addEventListener('online', ()=>{ fetchDone=false; doFetch(); });
 }
 
-// Service Worker
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
-
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
