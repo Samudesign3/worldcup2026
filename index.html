@@ -98,9 +98,7 @@ main{max-width:1200px;margin:0 auto;padding:18px 16px;display:grid;grid-template
 .b-ft{background:rgba(148,163,184,.1);color:var(--muted)}
 .b-draw{background:rgba(245,158,11,.12);color:var(--draw)}
 .b-pen{background:rgba(160,128,234,.15);color:var(--accent)}
-
-/* GOALSCORERS */
-.mc-goals{grid-column:1/-1;font-size:10px;color:var(--muted);padding:3px 0 1px;border-top:1px solid var(--border);line-height:1.5;word-break:break-word}
+.mc-goals{grid-column:1/-1;font-size:10px;color:var(--muted);padding:3px 0 1px;border-top:1px solid var(--border);line-height:1.6;word-break:break-word}
 
 /* CARD FOOTER */
 .mc-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
@@ -348,20 +346,19 @@ function renderCard(m){
   const hPH = isPlaceholder(homeName) ? ' placeholder' : '';
   const aPH = isPlaceholder(awayName) ? ' placeholder' : '';
 
-  // Goalscorers block (only shown if API provides data)
+  // Goalscorers — API: goals:[{minute,team,scorer}]
   let gsHtml = '';
-  if(done && c.goalscorers && c.goalscorers.length){
-    const fmtGs = g => {
-      const name = g.playerName || g.name || g.player || '';
+  if(done && Array.isArray(c.goalscorers) && c.goalscorers.length){
+    const lines = c.goalscorers.map(g=>{
+      const name = g.scorer || g.playerName || g.name || '';
+      if(!name) return null;
       const min  = g.minute ? `${g.minute}'` : '';
       const own  = g.ownGoal || g.own_goal ? ' (og)' : '';
       const pen  = g.penalty ? ' (pen)' : '';
-      return name ? `${name}${own}${pen}${min?' '+min:''}` : null;
-    };
-    const lines = c.goalscorers.map(fmtGs).filter(Boolean);
-    if(lines.length){
-      gsHtml = `<div class="mc-goals">⚽ ${lines.join(' · ')}</div>`;
-    }
+      const side = g.team === 'away' ? '←' : '';
+      return `${side}${name}${own}${pen}${min?' '+min:''}`;
+    }).filter(Boolean);
+    if(lines.length) gsHtml = `<div class="mc-goals">⚽ ${lines.join(' · ')}</div>`;
   }
 
   return `<div class="mc${live?' live':''}${done?' done':''}" style="--gc:${gc}" role="listitem">
@@ -426,17 +423,17 @@ function mergeApi(data){
     if(!m||typeof m!=='object') return;
     if(!m.homeTeam || !m.awayTeam) return;
 
-    // ① Match by EN team names — no ID matching (API IDs differ from xlsx IDs)
+    // Pure team-name matching — never use API id (API ids ≠ xlsx ids)
     let local = MATCHES.find(lm=>
       lm.enHome === m.homeTeam && lm.enAway === m.awayTeam
     );
-    // ② Try reversed (safety net for any API home/away swap)
+    // Reversed fallback (safety net)
     if(!local){
       local = MATCHES.find(lm=>
         lm.enHome === m.awayTeam && lm.enAway === m.homeTeam
       );
     }
-    // ③ If still not found, add HKT date as tiebreaker (handles future fixtures with same teams)
+    // HKT-date tiebreaker for future fixtures with same teams
     if(!local && m.kickoffUtc){
       const hktDate = new Date(new Date(m.kickoffUtc).getTime()+HKT).toISOString().slice(0,10);
       local = MATCHES.find(lm=>
@@ -449,13 +446,14 @@ function mergeApi(data){
     prev.homeScore  = m.homeScore  ?? m.home_score  ?? prev.homeScore  ?? null;
     prev.awayScore  = m.awayScore  ?? m.away_score  ?? prev.awayScore  ?? null;
     prev.status     = m.status     || prev.status    || null;
-    prev.liveMinute = m.liveMinute || m.minute       || prev.liveMinute || null;
+    // liveMinute can be empty string from API — only store truthy values
+    prev.liveMinute = m.liveMinute || m.minute || prev.liveMinute || null;
     prev.penalties  = m.penalties  || prev.penalties || null;
 
-    // Goalscorers — store if API provides them
-    const gs = m.goalscorers || m.goals || m.scorers ||
-               (m.events && m.events.filter(e=>e.type==='goal'||e.type==='Goal'));
-    if(gs && Array.isArray(gs) && gs.length) prev.goalscorers = gs;
+    // Goalscorers: API uses goals:[{minute,team,scorer}]
+    if(Array.isArray(m.goals) && m.goals.length){
+      prev.goalscorers = m.goals;
+    }
 
     // For KO matches: update team names if API has real teams
     if(local.stageKey !== 'group'){
