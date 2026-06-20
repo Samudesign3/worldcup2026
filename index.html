@@ -427,13 +427,11 @@ function mergeApi(data){
     let local = MATCHES.find(lm=>
       lm.enHome === m.homeTeam && lm.enAway === m.awayTeam
     );
-    // Reversed fallback (safety net)
     if(!local){
       local = MATCHES.find(lm=>
         lm.enHome === m.awayTeam && lm.enAway === m.homeTeam
       );
     }
-    // HKT-date tiebreaker for future fixtures with same teams
     if(!local && m.kickoffUtc){
       const hktDate = new Date(new Date(m.kickoffUtc).getTime()+HKT).toISOString().slice(0,10);
       local = MATCHES.find(lm=>
@@ -446,8 +444,7 @@ function mergeApi(data){
     prev.homeScore  = m.homeScore  ?? m.home_score  ?? prev.homeScore  ?? null;
     prev.awayScore  = m.awayScore  ?? m.away_score  ?? prev.awayScore  ?? null;
     prev.status     = m.status     || prev.status    || null;
-    // liveMinute can be empty string from API — only store truthy values
-    prev.liveMinute = m.liveMinute || m.minute || prev.liveMinute || null;
+    prev.liveMinute = m.liveMinute || m.minute       || prev.liveMinute || null;
     prev.penalties  = m.penalties  || prev.penalties || null;
 
     // Goalscorers: API uses goals:[{minute,team,scorer}]
@@ -567,6 +564,7 @@ function sw(tab, el){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   if(el?.classList?.contains('tab')) el.classList.add('on');
   renderAll();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 function setBot(el){
   document.querySelectorAll('.bot-tab').forEach(b=>b.classList.remove('on'));
